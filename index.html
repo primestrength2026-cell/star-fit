@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>STAR FIT</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -48,6 +49,13 @@
         img { display: block; max-width: 100%; }
         button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
 
+        /* ═══════ GPU LAYER PROMOTION ═══════ */
+        .gpu {
+            will-change: transform, opacity;
+            transform: translateZ(0);
+            backface-visibility: hidden;
+        }
+
         /* ═══════════════════════════════════════
            ANNOUNCEMENT BAR
         ═══════════════════════════════════════ */
@@ -62,16 +70,14 @@
             position: relative;
             z-index: 1000;
             overflow: hidden;
+            transform: translateZ(0);
         }
         .announcement-bar .track {
             display: inline-flex;
             gap: 80px;
-            animation: scroll-left 20s linear infinite;
             white-space: nowrap;
-        }
-        @keyframes scroll-left {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+            will-change: transform;
+            backface-visibility: hidden;
         }
 
         /* ═══════════════════════════════════════
@@ -85,6 +91,7 @@
             backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
             border-bottom: 1px solid var(--border);
+            transform: translateZ(0);
         }
         .header-inner {
             max-width: 1440px;
@@ -106,6 +113,11 @@
             border-radius: 50%;
             object-fit: cover;
             border: 1.5px solid var(--red);
+            transform: translateZ(0);
+            transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .header-logo:hover {
+            transform: translateZ(0) scale(1.06);
         }
         .header-brand {
             font-family: 'Bebas Neue', sans-serif;
@@ -122,7 +134,7 @@
             letter-spacing: 1.5px;
             text-transform: uppercase;
             color: var(--text-secondary);
-            transition: color 0.2s;
+            transition: color 0.3s cubic-bezier(0.22, 1, 0.36, 1);
         }
         .header-nav a:hover {
             color: var(--text);
@@ -141,11 +153,10 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            transition: color 0.2s;
+            transition: color 0.3s cubic-bezier(0.22, 1, 0.36, 1);
         }
         .header-wa:hover { color: #25D366; }
 
-        /* Mobile hamburger */
         .menu-toggle {
             display: none;
             flex-direction: column;
@@ -158,10 +169,12 @@
             width: 22px;
             height: 1.5px;
             background: var(--text);
-            transition: all 0.3s;
+            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            transform-origin: center;
+            will-change: transform, opacity;
         }
         .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(4px, 5px); }
-        .menu-toggle.active span:nth-child(2) { opacity: 0; }
+        .menu-toggle.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
         .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(4px, -5px); }
 
         .mobile-menu {
@@ -176,7 +189,8 @@
             gap: 32px;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.3s;
+            transition: opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: opacity;
         }
         .mobile-menu.active {
             opacity: 1;
@@ -187,9 +201,10 @@
             font-size: 36px;
             letter-spacing: 6px;
             color: var(--text-secondary);
-            transition: color 0.2s;
+            transition: color 0.3s cubic-bezier(0.22, 1, 0.36, 1), transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+            transform: translateZ(0);
         }
-        .mobile-menu a:hover { color: var(--text); }
+        .mobile-menu a:hover { color: var(--text); transform: translateZ(0) scale(1.05); }
 
         /* ═══════════════════════════════════════
            HERO
@@ -204,13 +219,12 @@
             text-align: center;
             padding: 40px 24px;
             position: relative;
+            transform: translateZ(0);
         }
         .hero::after {
             content: '';
             position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            bottom: 0; left: 0; right: 0;
             height: 200px;
             background: linear-gradient(to top, var(--bg), transparent);
             pointer-events: none;
@@ -223,8 +237,8 @@
             color: var(--red);
             margin-bottom: 24px;
             opacity: 0;
-            transform: translateY(20px);
-            animation: fade-up 0.8s 0.2s forwards;
+            transform: translate3d(0, 20px, 0);
+            animation: fade-up 0.8s 0.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
         .hero h1 {
             font-family: 'Bebas Neue', sans-serif;
@@ -233,8 +247,8 @@
             letter-spacing: 4px;
             margin-bottom: 28px;
             opacity: 0;
-            transform: translateY(20px);
-            animation: fade-up 0.8s 0.4s forwards;
+            transform: translate3d(0, 20px, 0);
+            animation: fade-up 0.8s 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
         .hero h1 .red { color: var(--red); }
         .hero-sub {
@@ -245,8 +259,8 @@
             line-height: 1.7;
             margin-bottom: 40px;
             opacity: 0;
-            transform: translateY(20px);
-            animation: fade-up 0.8s 0.6s forwards;
+            transform: translate3d(0, 20px, 0);
+            animation: fade-up 0.8s 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
         .hero-btn {
             display: inline-block;
@@ -256,29 +270,30 @@
             letter-spacing: 3px;
             text-transform: uppercase;
             border: 1px solid var(--text);
-            transition: all 0.3s;
             opacity: 0;
-            transform: translateY(20px);
-            animation: fade-up 0.8s 0.8s forwards;
+            transform: translate3d(0, 20px, 0);
+            animation: fade-up 0.8s 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            transition: background 0.35s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.35s cubic-bezier(0.22, 1, 0.36, 1), transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: transform;
         }
         .hero-btn:hover {
             background: var(--red);
             border-color: var(--red);
+            transform: translate3d(0, -2px, 0);
         }
 
         @keyframes fade-up {
-            to { opacity: 1; transform: translateY(0); }
+            to { opacity: 1; transform: translate3d(0, 0, 0); }
         }
 
         /* ═══════════════════════════════════════
-           SECTION PATTERN (like lifted)
+           SECTIONS
         ═══════════════════════════════════════ */
         .section-divider {
             border: none;
             border-top: 1px solid var(--border);
             margin: 0;
         }
-
         .section-heading {
             text-align: center;
             padding: 80px 24px 48px;
@@ -314,31 +329,36 @@
             position: relative;
             overflow: hidden;
             background: var(--surface);
+            transform: translateZ(0);
         }
         .product-card .img-wrap {
             position: relative;
             overflow: hidden;
             aspect-ratio: 3/4;
+            transform: translateZ(0);
         }
         .product-card img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.6s ease;
+            will-change: transform;
+            backface-visibility: hidden;
+            transform: translateZ(0) scale(1);
+            transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
         }
         .product-card:hover img {
-            transform: scale(1.04);
+            transform: translateZ(0) scale(1.04);
         }
         .product-card .tag {
             position: absolute;
-            top: 14px;
-            left: 14px;
+            top: 14px; left: 14px;
             padding: 4px 12px;
             background: var(--red);
             font-size: 9px;
             font-weight: 600;
             letter-spacing: 2px;
             text-transform: uppercase;
+            transform: translateZ(0);
         }
         .product-card .hover-overlay {
             position: absolute;
@@ -348,7 +368,9 @@
             align-items: center;
             justify-content: center;
             opacity: 0;
-            transition: opacity 0.35s;
+            will-change: opacity;
+            backface-visibility: hidden;
+            transition: opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1);
         }
         .product-card:hover .hover-overlay {
             opacity: 1;
@@ -363,7 +385,13 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: background 0.2s;
+            transform: translate3d(0, 8px, 0);
+            opacity: 0;
+            transition: background 0.3s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .product-card:hover .hover-overlay .wa-link {
+            transform: translate3d(0, 0, 0);
+            opacity: 1;
         }
         .hover-overlay .wa-link:hover {
             background: #1ebe5d;
@@ -385,7 +413,6 @@
             color: var(--red);
             white-space: nowrap;
         }
-        /* Mobile: always-visible button */
         .product-card .mobile-wa {
             display: none;
             padding: 12px 18px;
@@ -396,17 +423,14 @@
             letter-spacing: 2px;
             text-transform: uppercase;
         }
-        .product-card .mobile-wa i {
-            margin-right: 6px;
-        }
+        .product-card .mobile-wa i { margin-right: 6px; }
 
-        /* last row center if odd */
         .products-grid .product-card:last-child:nth-child(3n+1) {
             grid-column: 2;
         }
 
         /* ═══════════════════════════════════════
-           MOTIVATION / QUOTE
+           QUOTE
         ═══════════════════════════════════════ */
         .quote-section {
             padding: 100px 24px;
@@ -437,7 +461,7 @@
         }
 
         /* ═══════════════════════════════════════
-           COMING SOON / DROPPING NEXT
+           DROPPING NEXT
         ═══════════════════════════════════════ */
         .dropping-section {
             padding: 80px 24px;
@@ -481,23 +505,24 @@
             text-transform: uppercase;
             background: var(--red);
             color: var(--text);
-            transition: all 0.2s;
+            transform: translateZ(0);
+            transition: opacity 0.3s cubic-bezier(0.22, 1, 0.36, 1), transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: transform;
         }
         .notify-btn:hover {
             opacity: 0.85;
+            transform: translate3d(0, -2px, 0);
         }
 
         /* ═══════════════════════════════════════
-           REVIEWS HORIZONTAL SCROLL
+           REVIEWS
         ═══════════════════════════════════════ */
         .reviews-section {
             padding: 80px 0;
             border-top: 1px solid var(--border);
             overflow: hidden;
         }
-        .reviews-section .section-heading {
-            padding-bottom: 40px;
-        }
+        .reviews-section .section-heading { padding-bottom: 40px; }
         .reviews-scroll {
             display: flex;
             gap: 20px;
@@ -506,6 +531,8 @@
             scroll-snap-type: x mandatory;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
+            transform: translateZ(0);
+            will-change: scroll-position;
         }
         .reviews-scroll::-webkit-scrollbar { display: none; }
         .review-card {
@@ -514,15 +541,22 @@
             background: var(--surface);
             border: 1px solid var(--border);
             overflow: hidden;
+            transform: translateZ(0);
+            transition: border-color 0.4s cubic-bezier(0.22, 1, 0.36, 1);
         }
+        .review-card:hover { border-color: rgba(192,16,26,0.3); }
         .review-card .review-img {
             width: 100%;
             aspect-ratio: 1;
             object-fit: cover;
+            transform: translateZ(0);
+            will-change: transform;
+            transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
         }
-        .review-card .review-body {
-            padding: 20px;
+        .review-card:hover .review-img {
+            transform: translateZ(0) scale(1.03);
         }
+        .review-card .review-body { padding: 20px; }
         .review-card .stars {
             color: var(--red);
             font-size: 11px;
@@ -548,9 +582,7 @@
             padding: 60px 24px 80px;
             border-top: 1px solid var(--border);
         }
-        .size-section .section-heading {
-            padding-top: 0;
-        }
+        .size-section .section-heading { padding-top: 0; }
         .size-table-wrap {
             max-width: 600px;
             margin: 0 auto;
@@ -576,10 +608,9 @@
             color: var(--text-secondary);
             padding: 14px 16px;
             border-bottom: 1px solid rgba(255,255,255,0.04);
+            transition: color 0.3s cubic-bezier(0.22, 1, 0.36, 1);
         }
-        .size-table tbody tr:hover td {
-            color: var(--text);
-        }
+        .size-table tbody tr:hover td { color: var(--text); }
 
         /* ═══════════════════════════════════════
            FOOTER
@@ -588,10 +619,7 @@
             border-top: 1px solid var(--border);
             padding: 60px 48px 32px;
         }
-        .footer-inner {
-            max-width: 1440px;
-            margin: 0 auto;
-        }
+        .footer-inner { max-width: 1440px; margin: 0 auto; }
         .footer-grid {
             display: grid;
             grid-template-columns: 2fr 1fr 1fr 1fr;
@@ -599,8 +627,7 @@
             padding-bottom: 48px;
         }
         .footer-brand-block .f-logo {
-            width: 36px;
-            height: 36px;
+            width: 36px; height: 36px;
             border-radius: 50%;
             object-fit: cover;
             border: 1px solid var(--red);
@@ -634,7 +661,7 @@
             color: var(--text-secondary);
             font-weight: 300;
             padding: 3px 0;
-            transition: color 0.2s;
+            transition: color 0.3s cubic-bezier(0.22, 1, 0.36, 1);
         }
         .footer-col a:hover { color: var(--text); }
         .footer-col p i {
@@ -658,26 +685,21 @@
             letter-spacing: 1px;
         }
         .footer-copy .red { color: var(--red); }
-        .footer-socials {
-            display: flex;
-            gap: 16px;
-        }
+        .footer-socials { display: flex; gap: 16px; }
         .footer-socials a {
             font-size: 14px;
             color: var(--text-dim);
-            transition: color 0.2s;
+            transition: color 0.3s cubic-bezier(0.22, 1, 0.36, 1);
         }
         .footer-socials a:hover { color: var(--text); }
 
         /* ═══════════════════════════════════════
-           FLOATING WHATSAPP
+           FLOATING WA
         ═══════════════════════════════════════ */
         .float-wa {
             position: fixed;
-            bottom: 24px;
-            right: 24px;
-            width: 52px;
-            height: 52px;
+            bottom: 24px; right: 24px;
+            width: 52px; height: 52px;
             background: #25D366;
             border-radius: 50%;
             display: flex;
@@ -687,21 +709,25 @@
             font-size: 22px;
             z-index: 997;
             box-shadow: 0 4px 16px rgba(0,0,0,0.4);
-            transition: transform 0.2s;
+            transform: translateZ(0) scale(1);
+            will-change: transform;
+            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
         }
-        .float-wa:hover { transform: scale(1.08); }
+        .float-wa:hover { transform: translateZ(0) scale(1.08); }
 
         /* ═══════════════════════════════════════
-           SCROLL REVEAL
+           SCROLL REVEAL (GPU)
         ═══════════════════════════════════════ */
         .sr {
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.7s ease, transform 0.7s ease;
+            transform: translate3d(0, 30px, 0);
+            will-change: transform, opacity;
+            backface-visibility: hidden;
+            transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
         }
         .sr.vis {
             opacity: 1;
-            transform: translateY(0);
+            transform: translate3d(0, 0, 0);
         }
 
         /* ═══════════════════════════════════════
@@ -717,9 +743,7 @@
                 padding: 0 16px;
                 gap: 8px;
             }
-            .products-grid .product-card:last-child:nth-child(3n+1) {
-                grid-column: auto;
-            }
+            .products-grid .product-card:last-child:nth-child(3n+1) { grid-column: auto; }
             .product-card .hover-overlay { display: none; }
             .product-card .mobile-wa { display: block; }
             .footer-grid { grid-template-columns: 1fr 1fr; }
@@ -727,10 +751,7 @@
             .reviews-scroll { padding: 0 24px; }
         }
         @media (max-width: 520px) {
-            .products-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 6px;
-            }
+            .products-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
             .product-info { padding: 10px 12px 12px; }
             .product-info .name { font-size: 11px; }
             .product-info .price { font-size: 11px; }
@@ -741,15 +762,15 @@
 </head>
 <body>
 
-<!-- ══════════ ANNOUNCEMENT BAR ══════════ -->
+<!-- ANNOUNCEMENT BAR -->
 <div class="announcement-bar">
-    <div class="track">
+    <div class="track" id="announcementTrack">
         <span>Free delivery all over Lebanon &nbsp;&nbsp;•&nbsp;&nbsp; Premium Fitness Gear &nbsp;&nbsp;•&nbsp;&nbsp; Order via WhatsApp &nbsp;&nbsp;•&nbsp;&nbsp; Star Fit &nbsp;&nbsp;•&nbsp;&nbsp; Free delivery all over Lebanon &nbsp;&nbsp;•&nbsp;&nbsp; Premium Fitness Gear &nbsp;&nbsp;•&nbsp;&nbsp; Order via WhatsApp &nbsp;&nbsp;•&nbsp;&nbsp; Star Fit &nbsp;&nbsp;•&nbsp;&nbsp;</span>
         <span>Free delivery all over Lebanon &nbsp;&nbsp;•&nbsp;&nbsp; Premium Fitness Gear &nbsp;&nbsp;•&nbsp;&nbsp; Order via WhatsApp &nbsp;&nbsp;•&nbsp;&nbsp; Star Fit &nbsp;&nbsp;•&nbsp;&nbsp; Free delivery all over Lebanon &nbsp;&nbsp;•&nbsp;&nbsp; Premium Fitness Gear &nbsp;&nbsp;•&nbsp;&nbsp; Order via WhatsApp &nbsp;&nbsp;•&nbsp;&nbsp; Star Fit &nbsp;&nbsp;•&nbsp;&nbsp;</span>
     </div>
 </div>
 
-<!-- ══════════ HEADER ══════════ -->
+<!-- HEADER -->
 <header class="header">
     <div class="header-inner">
         <div class="header-left">
@@ -758,7 +779,8 @@
         </div>
         <nav class="header-nav">
             <a href="#home">Home</a>
-            <a href="#shop">Shop</a>
+            <a href="#shop">BreathTheDivinity</a>
+            <a href="#gymshark">GymShark</a>
             <a href="#dropping">New Drops</a>
             <a href="#reviews">Reviews</a>
             <a href="#contact">Contact</a>
@@ -774,16 +796,16 @@
     </div>
 </header>
 
-<!-- Mobile Menu -->
 <div class="mobile-menu" id="mobileMenu">
     <a href="#home" onclick="closeMenu()">Home</a>
-    <a href="#shop" onclick="closeMenu()">Shop</a>
+    <a href="#shop" onclick="closeMenu()">BreathTheDivinity</a>
+    <a href="#gymshark" onclick="closeMenu()">GymShark</a>
     <a href="#dropping" onclick="closeMenu()">New Drops</a>
     <a href="#reviews" onclick="closeMenu()">Reviews</a>
     <a href="#contact" onclick="closeMenu()">Contact</a>
 </div>
 
-<!-- ══════════ HERO ══════════ -->
+<!-- HERO -->
 <section class="hero" id="home">
     <p class="hero-eyebrow">Premium Fitness Equipment</p>
     <h1><span class="red">Fuel</span> Your Ambition</h1>
@@ -791,124 +813,134 @@
     <a href="#shop" class="hero-btn">Shop Now</a>
 </section>
 
-<!-- ══════════ PRODUCTS ══════════ -->
+<!-- SECTION 1: BreathTheDivinity -->
 <hr class="section-divider">
-
 <section class="products-section" id="shop">
     <div class="section-heading sr">
-        <h2>SHOP BY PRODUCT</h2>
+        <h2>BREATHTHEDIVINITY</h2>
     </div>
     <div class="products-grid">
 
         <div class="product-card sr">
             <div class="img-wrap">
-                <img src="https://i.imgur.com/da8r1eB.jpeg" alt="Premium Gym Gloves" loading="lazy">
+                <img src="https://i.imgur.com/raKMsfO.jpg" alt="Void Tech TM Parasite Short Sleeve Compression" loading="lazy">
                 <span class="tag">Hot</span>
                 <div class="hover-overlay">
-                    <a href="https://wa.me/96171359093?text=Hi%20STAR%20FIT!%20I'm%20interested%20in%20*Premium%20Gym%20Gloves*%20-%20%2429.99" target="_blank" class="wa-link"><i class="fab fa-whatsapp"></i> Order Now</a>
+                    <a href="https://wa.me/96171359093?text=Hi%20STAR%20FIT!%20I'm%20interested%20in%20*Void%20Tech%20TM%20Parasite%20Short%20Sleeve%20Compression*%20-%20%2430" target="_blank" class="wa-link"><i class="fab fa-whatsapp"></i> Order Now</a>
                 </div>
             </div>
             <div class="product-info">
-                <span class="name">Premium Gym Gloves</span>
-                <span class="price">$29.99</span>
+                <span class="name">Void Tech TM Parasite Short Sleeve Compression</span>
+                <span class="price">$30</span>
             </div>
-            <a href="https://wa.me/96171359093?text=Hi%20STAR%20FIT!%20I'm%20interested%20in%20*Premium%20Gym%20Gloves*%20-%20%2429.99" target="_blank" class="mobile-wa"><i class="fab fa-whatsapp"></i> Order Now</a>
+            <a href="https://wa.me/96171359093?text=Hi%20STAR%20FIT!%20I'm%20interested%20in%20*Void%20Tech%20TM%20Parasite%20Short%20Sleeve%20Compression*%20-%20%2430" target="_blank" class="mobile-wa"><i class="fab fa-whatsapp"></i> Order Now</a>
         </div>
 
         <div class="product-card sr">
             <div class="img-wrap">
-                <img src="https://i.imgur.com/v7t9nI7.jpeg" alt="Resistance Bands Set" loading="lazy">
+                <img src="https://i.imgur.com/qtXqtsU.jpg" alt="Void Tech TM Parasite Short Sleeve Compression" loading="lazy">
                 <span class="tag">New</span>
                 <div class="hover-overlay">
-                    <a href="https://wa.me/96171359093?text=Hi%20STAR%20FIT!%20I'm%20interested%20in%20*Resistance%20Bands%20Set*%20-%20%2434.99" target="_blank" class="wa-link"><i class="fab fa-whatsapp"></i> Order Now</a>
+                    <a href="https://wa.me/96171359093?text=Hi%20STAR%20FIT!%20I'm%20interested%20in%20*Void%20Tech%20TM%20Parasite%20Short%20Sleeve%20Compression*%20-%20%2430" target="_blank" class="wa-link"><i class="fab fa-whatsapp"></i> Order Now</a>
                 </div>
             </div>
             <div class="product-info">
-                <span class="name">Resistance Bands Set</span>
-                <span class="price">$34.99</span>
+                <span class="name">Void Tech TM Parasite Short Sleeve Compression</span>
+                <span class="price">$30</span>
             </div>
-            <a href="https://wa.me/96171359093?text=Hi%20STAR%20FIT!%20I'm%20interested%20in%20*Resistance%20Bands%20Set*%20-%20%2434.99" target="_blank" class="mobile-wa"><i class="fab fa-whatsapp"></i> Order Now</a>
+            <a href="https://wa.me/96171359093?text=Hi%20STAR%20FIT!%20I'm%20interested%20in%20*Void%20Tech%20TM%20Parasite%20Short%20Sleeve%20Compression*%20-%20%2430" target="_blank" class="mobile-wa"><i class="fab fa-whatsapp"></i> Order Now</a>
         </div>
 
         <div class="product-card sr">
             <div class="img-wrap">
-                <img src="https://i.imgur.com/LHLdBjO.jpeg" alt="Pro Weight Belt" loading="lazy">
+                <img src="https://i.imgur.com/dlXrVCc.jpg" alt="Void Tech TM Parasite Short Sleeve Compression" loading="lazy">
                 <span class="tag">Best</span>
                 <div class="hover-overlay">
-                    <a href="https://wa.me/96171359093?text=Hi%20STAR%20FIT!%20I'm%20interested%20in%20*Pro%20Weight%20Belt*%20-%20%2449.99" target="_blank" class="wa-link"><i class="fab fa-whatsapp"></i> Order Now</a>
+                    <a href="https://wa.me/96171359093?text=Hi%20STAR%20FIT!%20I'm%20interested%20in%20*Void%20Tech%20TM%20Parasite%20Short%20Sleeve%20Compression*%20-%20%2430" target="_blank" class="wa-link"><i class="fab fa-whatsapp"></i> Order Now</a>
                 </div>
             </div>
             <div class="product-info">
-                <span class="name">Pro Weight Belt</span>
-                <span class="price">$49.99</span>
+                <span class="name">Void Tech TM Parasite Short Sleeve Compression</span>
+                <span class="price">$30</span>
             </div>
-            <a href="https://wa.me/96171359093?text=Hi%20STAR%20FIT!%20I'm%20interested%20in%20*Pro%20Weight%20Belt*%20-%20%2449.99" target="_blank" class="mobile-wa"><i class="fab fa-whatsapp"></i> Order Now</a>
-        </div>
-
-        <div class="product-card sr">
-            <div class="img-wrap">
-                <img src="https://i.imgur.com/MbKKSm2.jpeg" alt="Shaker Bottle Pro" loading="lazy">
-                <span class="tag">Top</span>
-                <div class="hover-overlay">
-                    <a href="https://wa.me/96171359093?text=Hi%20STAR%20FIT!%20I'm%20interested%20in%20*Shaker%20Bottle%20Pro*%20-%20%2419.99" target="_blank" class="wa-link"><i class="fab fa-whatsapp"></i> Order Now</a>
-                </div>
-            </div>
-            <div class="product-info">
-                <span class="name">Shaker Bottle Pro</span>
-                <span class="price">$19.99</span>
-            </div>
-            <a href="https://wa.me/96171359093?text=Hi%20STAR%20FIT!%20I'm%20interested%20in%20*Shaker%20Bottle%20Pro*%20-%20%2419.99" target="_blank" class="mobile-wa"><i class="fab fa-whatsapp"></i> Order Now</a>
-        </div>
-
-        <div class="product-card sr">
-            <div class="img-wrap">
-                <img src="https://i.imgur.com/FqvVfXW.jpeg" alt="Wrist Wraps Elite" loading="lazy">
-                <span class="tag">Sale</span>
-                <div class="hover-overlay">
-                    <a href="https://wa.me/96171359093?text=Hi%20STAR%20FIT!%20I'm%20interested%20in%20*Wrist%20Wraps%20Elite*%20-%20%2424.99" target="_blank" class="wa-link"><i class="fab fa-whatsapp"></i> Order Now</a>
-                </div>
-            </div>
-            <div class="product-info">
-                <span class="name">Wrist Wraps Elite</span>
-                <span class="price">$24.99</span>
-            </div>
-            <a href="https://wa.me/96171359093?text=Hi%20STAR%20FIT!%20I'm%20interested%20in%20*Wrist%20Wraps%20Elite*%20-%20%2424.99" target="_blank" class="mobile-wa"><i class="fab fa-whatsapp"></i> Order Now</a>
-        </div>
-
-        <div class="product-card sr">
-            <div class="img-wrap">
-                <img src="https://i.imgur.com/ssb8EvQ.jpeg" alt="Training Knee Sleeves" loading="lazy">
-                <span class="tag">Pro</span>
-                <div class="hover-overlay">
-                    <a href="https://wa.me/96171359093?text=Hi%20STAR%20FIT!%20I'm%20interested%20in%20*Training%20Knee%20Sleeves*%20-%20%2439.99" target="_blank" class="wa-link"><i class="fab fa-whatsapp"></i> Order Now</a>
-                </div>
-            </div>
-            <div class="product-info">
-                <span class="name">Training Knee Sleeves</span>
-                <span class="price">$39.99</span>
-            </div>
-            <a href="https://wa.me/96171359093?text=Hi%20STAR%20FIT!%20I'm%20interested%20in%20*Training%20Knee%20Sleeves*%20-%20%2439.99" target="_blank" class="mobile-wa"><i class="fab fa-whatsapp"></i> Order Now</a>
-        </div>
-
-        <div class="product-card sr">
-            <div class="img-wrap">
-                <img src="https://i.imgur.com/jT212tn.jpeg" alt="Power Lifting Straps" loading="lazy">
-                <span class="tag">New</span>
-                <div class="hover-overlay">
-                    <a href="https://wa.me/96171359093?text=Hi%20STAR%20FIT!%20I'm%20interested%20in%20*Power%20Lifting%20Straps*%20-%20%2427.99" target="_blank" class="wa-link"><i class="fab fa-whatsapp"></i> Order Now</a>
-                </div>
-            </div>
-            <div class="product-info">
-                <span class="name">Power Lifting Straps</span>
-                <span class="price">$27.99</span>
-            </div>
-            <a href="https://wa.me/96171359093?text=Hi%20STAR%20FIT!%20I'm%20interested%20in%20*Power%20Lifting%20Straps*%20-%20%2427.99" target="_blank" class="mobile-wa"><i class="fab fa-whatsapp"></i> Order Now</a>
+            <a href="https://wa.me/96171359093?text=Hi%20STAR%20FIT!%20I'm%20interested%20in%20*Void%20Tech%20TM%20Parasite%20Short%20Sleeve%20Compression*%20-%20%2430" target="_blank" class="mobile-wa"><i class="fab fa-whatsapp"></i> Order Now</a>
         </div>
 
     </div>
 </section>
 
-<!-- ══════════ QUOTE ══════════ -->
+<!-- SECTION 2: GymShark -->
+<hr class="section-divider">
+<section class="products-section" id="gymshark">
+    <div class="section-heading sr">
+        <h2>GYMSHARK</h2>
+    </div>
+    <div class="products-grid">
+
+        <div class="product-card sr">
+            <div class="img-wrap">
+                <img src="https://i.imgur.com/1XjeEFY.jpeg" alt="Esmun Bser GYMSHARK Onyx 5.0" loading="lazy">
+                <span class="tag">Hot</span>
+                <div class="hover-overlay">
+                    <a href="https://wa.me/96171359093?text=Hi%20STAR%20FIT!%20I'm%20interested%20in%20*Esmun%20Bser%20GYMSHARK%20Onyx%205.0*%20-%20%2425" target="_blank" class="wa-link"><i class="fab fa-whatsapp"></i> Order Now</a>
+                </div>
+            </div>
+            <div class="product-info">
+                <span class="name">Esmun Bser GYMSHARK Onyx 5.0</span>
+                <span class="price">$25</span>
+            </div>
+            <a href="https://wa.me/96171359093?text=Hi%20STAR%20FIT!%20I'm%20interested%20in%20*Esmun%20Bser%20GYMSHARK%20Onyx%205.0*%20-%20%2425" target="_blank" class="mobile-wa"><i class="fab fa-whatsapp"></i> Order Now</a>
+        </div>
+
+        <div class="product-card sr">
+            <div class="img-wrap">
+                <img src="https://i.imgur.com/0utdilf.jpeg" alt="Esmun Bser GYMSHARK Onyx 5.0" loading="lazy">
+                <span class="tag">New</span>
+                <div class="hover-overlay">
+                    <a href="https://wa.me/96171359093?text=Hi%20STAR%20FIT!%20I'm%20interested%20in%20*Esmun%20Bser%20GYMSHARK%20Onyx%205.0*%20-%20%2425" target="_blank" class="wa-link"><i class="fab fa-whatsapp"></i> Order Now</a>
+                </div>
+            </div>
+            <div class="product-info">
+                <span class="name">Esmun Bser GYMSHARK Onyx 5.0</span>
+                <span class="price">$25</span>
+            </div>
+            <a href="https://wa.me/96171359093?text=Hi%20STAR%20FIT!%20I'm%20interested%20in%20*Esmun%20Bser%20GYMSHARK%20Onyx%205.0*%20-%20%2425" target="_blank" class="mobile-wa"><i class="fab fa-whatsapp"></i> Order Now</a>
+        </div>
+
+        <div class="product-card sr">
+            <div class="img-wrap">
+                <img src="https://i.imgur.com/UO26s2g.jpeg" alt="Esmun Bser GYMSHARK Onyx 5.0" loading="lazy">
+                <span class="tag">Best</span>
+                <div class="hover-overlay">
+                    <a href="https://wa.me/96171359093?text=Hi%20STAR%20FIT!%20I'm%20interested%20in%20*Esmun%20Bser%20GYMSHARK%20Onyx%205.0*%20-%20%2425" target="_blank" class="wa-link"><i class="fab fa-whatsapp"></i> Order Now</a>
+                </div>
+            </div>
+            <div class="product-info">
+                <span class="name">Esmun Bser GYMSHARK Onyx 5.0</span>
+                <span class="price">$25</span>
+            </div>
+            <a href="https://wa.me/96171359093?text=Hi%20STAR%20FIT!%20I'm%20interested%20in%20*Esmun%20Bser%20GYMSHARK%20Onyx%205.0*%20-%20%2425" target="_blank" class="mobile-wa"><i class="fab fa-whatsapp"></i> Order Now</a>
+        </div>
+
+        <div class="product-card sr">
+            <div class="img-wrap">
+                <img src="https://i.imgur.com/bom06e0.jpeg" alt="Esmun Bser GYMSHARK Onyx 5.0" loading="lazy">
+                <span class="tag">Top</span>
+                <div class="hover-overlay">
+                    <a href="https://wa.me/96171359093?text=Hi%20STAR%20FIT!%20I'm%20interested%20in%20*Esmun%20Bser%20GYMSHARK%20Onyx%205.0*%20-%20%2425" target="_blank" class="wa-link"><i class="fab fa-whatsapp"></i> Order Now</a>
+                </div>
+            </div>
+            <div class="product-info">
+                <span class="name">Esmun Bser GYMSHARK Onyx 5.0</span>
+                <span class="price">$25</span>
+            </div>
+            <a href="https://wa.me/96171359093?text=Hi%20STAR%20FIT!%20I'm%20interested%20in%20*Esmun%20Bser%20GYMSHARK%20Onyx%205.0*%20-%20%2425" target="_blank" class="mobile-wa"><i class="fab fa-whatsapp"></i> Order Now</a>
+        </div>
+
+    </div>
+</section>
+
+<!-- QUOTE -->
 <section class="quote-section">
     <blockquote class="sr">
         "The only bad workout is the one that <em>didn't happen</em>. Push yourself because no one else is going to do it for you."
@@ -916,7 +948,7 @@
     <p class="quote-attr sr">— Star Fit</p>
 </section>
 
-<!-- ══════════ DROPPING NEXT ══════════ -->
+<!-- DROPPING NEXT -->
 <section class="dropping-section" id="dropping">
     <div class="sr">
         <h2>Coming Soon</h2>
@@ -927,13 +959,12 @@
     </div>
 </section>
 
-<!-- ══════════ REVIEWS ══════════ -->
+<!-- REVIEWS -->
 <section class="reviews-section" id="reviews">
     <div class="section-heading sr">
         <h2>CUSTOMER REVIEWS</h2>
     </div>
     <div class="reviews-scroll" id="reviewsScroll">
-
         <div class="review-card">
             <img src="https://i.imgur.com/da8r1eB.jpeg" alt="Ahmad" class="review-img" loading="lazy">
             <div class="review-body">
@@ -942,7 +973,6 @@
                 <p class="review-text">Perfect quality. Best fitness store in Lebanon!</p>
             </div>
         </div>
-
         <div class="review-card">
             <img src="https://i.imgur.com/v7t9nI7.jpeg" alt="Mohammad" class="review-img" loading="lazy">
             <div class="review-body">
@@ -951,7 +981,6 @@
                 <p class="review-text">Perfect material. Shi mratab wallah!</p>
             </div>
         </div>
-
         <div class="review-card">
             <img src="https://i.imgur.com/LHLdBjO.jpeg" alt="Hassan" class="review-img" loading="lazy">
             <div class="review-body">
@@ -960,7 +989,6 @@
                 <p class="review-text">Quality mratabe. Fast delivery too.</p>
             </div>
         </div>
-
         <div class="review-card">
             <img src="https://i.imgur.com/MbKKSm2.jpeg" alt="Ali" class="review-img" loading="lazy">
             <div class="review-body">
@@ -969,7 +997,6 @@
                 <p class="review-text">The quality is so good, literally like the original.</p>
             </div>
         </div>
-
         <div class="review-card">
             <img src="https://i.imgur.com/FqvVfXW.jpeg" alt="Omar" class="review-img" loading="lazy">
             <div class="review-body">
@@ -978,11 +1005,10 @@
                 <p class="review-text">Best prices and premium quality. Highly recommended!</p>
             </div>
         </div>
-
     </div>
 </section>
 
-<!-- ══════════ SIZE CHART ══════════ -->
+<!-- SIZE CHART -->
 <section class="size-section">
     <div class="section-heading sr">
         <h2>SIZE CHART</h2>
@@ -990,11 +1016,7 @@
     <div class="size-table-wrap sr">
         <table class="size-table">
             <thead>
-                <tr>
-                    <th>Size</th>
-                    <th>Height (cm)</th>
-                    <th>Weight (kg)</th>
-                </tr>
+                <tr><th>Size</th><th>Height (cm)</th><th>Weight (kg)</th></tr>
             </thead>
             <tbody>
                 <tr><td>S</td><td>165-170</td><td>50-65</td></tr>
@@ -1005,7 +1027,7 @@
     </div>
 </section>
 
-<!-- ══════════ CONTACT / CTA ══════════ -->
+<!-- CONTACT -->
 <section class="dropping-section" id="contact" style="border-top:1px solid var(--border);">
     <div class="sr">
         <h2>Get In Touch</h2>
@@ -1015,7 +1037,7 @@
     </div>
 </section>
 
-<!-- ══════════ FOOTER ══════════ -->
+<!-- FOOTER -->
 <footer class="footer">
     <div class="footer-inner">
         <div class="footer-grid">
@@ -1026,9 +1048,9 @@
             </div>
             <div class="footer-col">
                 <h6>Shop</h6>
-                <a href="#shop">All Products</a>
+                <a href="#shop">BreathTheDivinity</a>
+                <a href="#gymshark">GymShark</a>
                 <a href="#dropping">New Drops</a>
-                <a href="#reviews">Reviews</a>
             </div>
             <div class="footer-col">
                 <h6>Info</h6>
@@ -1058,66 +1080,147 @@
 <a href="https://wa.me/96171359093?text=Hi%20STAR%20FIT!%20I'm%20interested%20in%20your%20products." target="_blank" class="float-wa"><i class="fab fa-whatsapp"></i></a>
 
 <script>
-// ── Menu toggle ──
-const toggle = document.getElementById('menuToggle');
-const mobileMenu = document.getElementById('mobileMenu');
+(function() {
+    'use strict';
 
-toggle.addEventListener('click', () => {
-    toggle.classList.toggle('active');
-    mobileMenu.classList.toggle('active');
-    document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
-});
+    /* ═══════ 60FPS ANNOUNCEMENT MARQUEE ═══════ */
+    const track = document.getElementById('announcementTrack');
+    let marqueeX = 0;
+    const speed = 0.5; // px per frame
+    let trackWidth = 0;
 
-function closeMenu() {
-    toggle.classList.remove('active');
-    mobileMenu.classList.remove('active');
-    document.body.style.overflow = '';
-}
+    function measureTrack() {
+        trackWidth = track.scrollWidth / 2;
+    }
 
-// ── Smooth scroll ──
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => {
-        const id = a.getAttribute('href');
-        if (id === '#') return;
+    function tickMarquee() {
+        marqueeX -= speed;
+        if (marqueeX <= -trackWidth) marqueeX = 0;
+        track.style.transform = 'translate3d(' + marqueeX + 'px, 0, 0)';
+        requestAnimationFrame(tickMarquee);
+    }
+
+    measureTrack();
+    requestAnimationFrame(tickMarquee);
+    window.addEventListener('resize', measureTrack);
+
+    /* ═══════ MENU ═══════ */
+    const toggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    toggle.addEventListener('click', function() {
+        toggle.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+        document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+    });
+
+    window.closeMenu = function() {
+        toggle.classList.remove('active');
+        mobileMenu.classList.remove('active');
+        document.body.style.overflow = '';
+    };
+
+    /* ═══════ SMOOTH SCROLL ═══════ */
+    document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+        a.addEventListener('click', function(e) {
+            var id = a.getAttribute('href');
+            if (id === '#') return;
+            e.preventDefault();
+            var el = document.querySelector(id);
+            if (el) {
+                var top = el.getBoundingClientRect().top + window.scrollY - 80;
+                window.scrollTo({ top: top, behavior: 'smooth' });
+            }
+        });
+    });
+
+    /* ═══════ INTERSECTION OBSERVER (REVEAL) ═══════ */
+    var obs = new IntersectionObserver(function(entries) {
+        for (var i = 0; i < entries.length; i++) {
+            if (entries[i].isIntersecting) {
+                entries[i].target.classList.add('vis');
+            }
+        }
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.sr').forEach(function(el) { obs.observe(el); });
+
+    /* ═══════ REVIEWS DRAG + MOMENTUM SCROLL ═══════ */
+    var rs = document.getElementById('reviewsScroll');
+    var isDown = false;
+    var startX = 0;
+    var scrollLeft = 0;
+    var velX = 0;
+    var lastX = 0;
+    var lastTime = 0;
+    var momentumId = null;
+
+    rs.style.cursor = 'grab';
+
+    rs.addEventListener('mousedown', function(e) {
+        isDown = true;
+        rs.style.cursor = 'grabbing';
+        startX = e.pageX - rs.offsetLeft;
+        scrollLeft = rs.scrollLeft;
+        lastX = e.pageX;
+        lastTime = performance.now();
+        velX = 0;
+        if (momentumId) cancelAnimationFrame(momentumId);
+    });
+
+    rs.addEventListener('mouseleave', function() {
+        if (isDown) startMomentum();
+        isDown = false;
+        rs.style.cursor = 'grab';
+    });
+
+    rs.addEventListener('mouseup', function() {
+        if (isDown) startMomentum();
+        isDown = false;
+        rs.style.cursor = 'grab';
+    });
+
+    rs.addEventListener('mousemove', function(e) {
+        if (!isDown) return;
         e.preventDefault();
-        const el = document.querySelector(id);
-        if (el) {
-            const top = el.getBoundingClientRect().top + window.scrollY - 80;
-            window.scrollTo({ top, behavior: 'smooth' });
+        var x = e.pageX - rs.offsetLeft;
+        var now = performance.now();
+        var dt = now - lastTime;
+        if (dt > 0) {
+            velX = (e.pageX - lastX) / dt;
         }
+        lastX = e.pageX;
+        lastTime = now;
+        rs.scrollLeft = scrollLeft - (x - startX);
     });
-});
 
-// ── Scroll reveal ──
-const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-        if (e.isIntersecting) {
-            e.target.classList.add('vis');
+    function startMomentum() {
+        var friction = 0.95;
+        function step() {
+            velX *= friction;
+            rs.scrollLeft -= velX * 16;
+            if (Math.abs(velX) > 0.01) {
+                momentumId = requestAnimationFrame(step);
+            }
         }
-    });
-}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+        momentumId = requestAnimationFrame(step);
+    }
 
-document.querySelectorAll('.sr').forEach(el => obs.observe(el));
+    // Touch support
+    var touchStartX = 0;
+    var touchScrollLeft = 0;
 
-// ── Reviews drag scroll ──
-const rs = document.getElementById('reviewsScroll');
-let isDown = false, startX, scrollLeft;
+    rs.addEventListener('touchstart', function(e) {
+        touchStartX = e.touches[0].pageX;
+        touchScrollLeft = rs.scrollLeft;
+    }, { passive: true });
 
-rs.addEventListener('mousedown', e => {
-    isDown = true;
-    rs.style.cursor = 'grabbing';
-    startX = e.pageX - rs.offsetLeft;
-    scrollLeft = rs.scrollLeft;
-});
-rs.addEventListener('mouseleave', () => { isDown = false; rs.style.cursor = 'grab'; });
-rs.addEventListener('mouseup', () => { isDown = false; rs.style.cursor = 'grab'; });
-rs.addEventListener('mousemove', e => {
-    if (!isDown) return;
-    e.preventDefault();
-    const x = e.pageX - rs.offsetLeft;
-    rs.scrollLeft = scrollLeft - (x - startX) * 1.5;
-});
-rs.style.cursor = 'grab';
+    rs.addEventListener('touchmove', function(e) {
+        var dx = e.touches[0].pageX - touchStartX;
+        rs.scrollLeft = touchScrollLeft - dx;
+    }, { passive: true });
+
+})();
 </script>
 
 </body>
