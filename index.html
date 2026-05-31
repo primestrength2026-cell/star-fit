@@ -1,1937 +1,322 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hamdan Perfume | Lebanon's #1 Perfume Store 2026</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
-        :root {
-            --gold: #D4AF37;
-            --gold-light: #F0D060;
-            --gold-dark: #B8960C;
-            --black: #0a0a0a;
-            --black-light: #1a1a1a;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: var(--black);
-            color: #fff;
-            overflow-x: hidden;
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--black); }
-        ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
-
-        /* Preloader */
-        #preloader {
-            position: fixed;
-            inset: 0;
-            background: var(--black);
-            z-index: 99999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
-        }
-        #preloader.hidden { opacity: 0; visibility: hidden; }
-        .loader-logo {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            animation: pulse-glow 1.5s ease-in-out infinite;
-            border: 3px solid var(--gold);
-        }
-        .loader-ring {
-            width: 160px; height: 160px;
-            border: 3px solid transparent;
-            border-top-color: var(--gold);
-            border-radius: 50%;
-            position: absolute;
-            animation: spin 1.2s linear infinite;
-        }
-        .loader-ring:nth-child(2) {
-            width: 180px; height: 180px;
-            border-top-color: transparent;
-            border-right-color: var(--gold-light);
-            animation-duration: 1.8s;
-            animation-direction: reverse;
-        }
-
-        @keyframes spin { to { transform: rotate(360deg); } }
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(212,175,55,0.3); }
-            50% { box-shadow: 0 0 50px rgba(212,175,55,0.7); }
-        }
-
-        /* Navbar */
-        .navbar {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 9999;
-            padding: 15px 0;
-            transition: all 0.4s ease;
-            background: transparent;
-        }
-        .navbar.scrolled {
-            background: rgba(10,10,10,0.95);
-            backdrop-filter: blur(20px);
-            padding: 10px 0;
-            box-shadow: 0 2px 30px rgba(212,175,55,0.15);
-        }
-        .nav-logo {
-            width: 55px; height: 55px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--gold);
-            transition: transform 0.3s;
-        }
-        .nav-logo:hover { transform: scale(1.1) rotate(5deg); }
-        .nav-link {
-            color: #ccc;
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 500;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            transition: all 0.3s;
-            position: relative;
-            padding: 5px 0;
-        }
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0;
-            width: 0; height: 2px;
-            background: linear-gradient(90deg, var(--gold), var(--gold-light));
-            transition: width 0.3s;
-        }
-        .nav-link:hover { color: var(--gold); }
-        .nav-link:hover::after { width: 100%; }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-        }
-        .hero-bg {
-            position: absolute; inset: 0;
-            background: url('https://images.pexels.com/photos/13068365/pexels-photo-13068365.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=1920') center/cover;
-            filter: brightness(0.2);
-        }
-        .hero-overlay {
-            position: absolute; inset: 0;
-            background: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(10,10,10,0.6) 50%, rgba(212,175,55,0.1) 100%);
-        }
-        .hero-particles {
-            position: absolute; inset: 0;
-            overflow: hidden;
-        }
-        .particle {
-            position: absolute;
-            width: 4px; height: 4px;
-            background: var(--gold);
-            border-radius: 50%;
-            animation: float-up linear infinite;
-            opacity: 0;
-        }
-        @keyframes float-up {
-            0% { transform: translateY(100vh) scale(0); opacity: 0; }
-            20% { opacity: 1; }
-            80% { opacity: 0.5; }
-            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
-        }
-        .hero-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2.5rem, 6vw, 5.5rem);
-            font-weight: 800;
-            line-height: 1.1;
-            background: linear-gradient(135deg, var(--gold-light), var(--gold), #fff, var(--gold));
-            background-size: 300% 300%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shimmer 4s ease-in-out infinite;
-        }
-        @keyframes shimmer {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-        .hero-subtitle {
-            font-family: 'Great Vibes', cursive;
-            font-size: clamp(1.2rem, 3vw, 2.2rem);
-            color: var(--gold-light);
-            opacity: 0.9;
-        }
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: linear-gradient(135deg, rgba(212,175,55,0.15), rgba(212,175,55,0.05));
-            border: 1px solid rgba(212,175,55,0.3);
-            border-radius: 50px;
-            padding: 8px 20px;
-            font-size: 0.8rem;
-            color: var(--gold-light);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            animation: pulse-border 2s ease-in-out infinite;
-        }
-        @keyframes pulse-border {
-            0%, 100% { border-color: rgba(212,175,55,0.3); }
-            50% { border-color: rgba(212,175,55,0.8); }
-        }
-        .btn-gold {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 14px 35px;
-            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-            color: #000;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 0.85rem;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.4s;
-            text-decoration: none;
-            position: relative;
-            overflow: hidden;
-        }
-        .btn-gold::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.5s;
-        }
-        .btn-gold:hover::before { left: 100%; }
-        .btn-gold:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 40px rgba(212,175,55,0.4);
-        }
-        .btn-outline {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 14px 35px;
-            background: transparent;
-            color: var(--gold);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 0.85rem;
-            border: 2px solid var(--gold);
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.4s;
-            text-decoration: none;
-        }
-        .btn-outline:hover {
-            background: var(--gold);
-            color: #000;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 40px rgba(212,175,55,0.3);
-        }
-
-        /* 3D Bottle */
-        .bottle-3d-container {
-            perspective: 1000px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .bottle-3d {
-            width: 300px; height: 400px;
-            position: relative;
-            transform-style: preserve-3d;
-            animation: rotate3d 8s ease-in-out infinite;
-        }
-        @keyframes rotate3d {
-            0%, 100% { transform: rotateY(-15deg) rotateX(5deg); }
-            50% { transform: rotateY(15deg) rotateX(-5deg); }
-        }
-        .bottle-3d img {
-            width: 100%; height: 100%;
-            object-fit: contain;
-            border-radius: 10px;
-            filter: drop-shadow(0 20px 60px rgba(212,175,55,0.3));
-        }
-        .glow-ring {
-            position: absolute;
-            bottom: -20px;
-            left: 50%;
-            transform: translateX(-50%) rotateX(80deg);
-            width: 200px; height: 200px;
-            border: 2px solid var(--gold);
-            border-radius: 50%;
-            opacity: 0.3;
-            animation: ring-pulse 2s ease-in-out infinite;
-        }
-        @keyframes ring-pulse {
-            0%, 100% { transform: translateX(-50%) rotateX(80deg) scale(1); opacity: 0.3; }
-            50% { transform: translateX(-50%) rotateX(80deg) scale(1.2); opacity: 0.1; }
-        }
-
-        /* Section Styles */
-        .section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2rem, 4vw, 3.5rem);
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--gold-light), var(--gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-align: center;
-        }
-        .section-line {
-            width: 80px; height: 3px;
-            background: linear-gradient(90deg, transparent, var(--gold), transparent);
-            margin: 15px auto;
-        }
-        .section-sub {
-            text-align: center;
-            color: #999;
-            font-size: 0.9rem;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
-
-        /* Product Card */
-        .product-card {
-            background: linear-gradient(145deg, #141414, #1c1c1c);
-            border: 1px solid rgba(212,175,55,0.1);
-            border-radius: 20px;
-            overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            position: relative;
-            group: true;
-        }
-        .product-card:hover {
-            transform: translateY(-15px) scale(1.02);
-            border-color: rgba(212,175,55,0.5);
-            box-shadow: 0 30px 80px rgba(212,175,55,0.15), 0 0 0 1px rgba(212,175,55,0.2);
-        }
-        .product-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
-            transform: scaleX(0);
-            transition: transform 0.5s;
-        }
-        .product-card:hover::before { transform: scaleX(1); }
-        .product-img-wrap {
-            position: relative;
-            overflow: hidden;
-            height: 260px;
-            background: linear-gradient(180deg, #1a1a1a, #111);
-        }
-        .product-img-wrap img {
-            width: 100%; height: 100%;
-            object-fit: cover;
-            transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        .product-card:hover .product-img-wrap img {
-            transform: scale(1.1);
-        }
-        .product-overlay {
-            position: absolute; inset: 0;
-            background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.8) 100%);
-        }
-        .product-badge {
-            position: absolute;
-            top: 15px; right: 15px;
-            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-            color: #000;
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 5px 12px;
-            border-radius: 20px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-        .product-info {
-            padding: 20px;
-        }
-        .product-brand {
-            font-size: 0.7rem;
-            color: var(--gold);
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            font-weight: 600;
-        }
-        .product-name {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.15rem;
-            font-weight: 600;
-            margin: 6px 0;
-            color: #fff;
-        }
-        .product-desc {
-            font-size: 0.78rem;
-            color: #888;
-            margin-bottom: 12px;
-            line-height: 1.5;
-        }
-        .product-price-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 15px;
-        }
-        .product-price {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--gold);
-        }
-        .product-price-old {
-            font-size: 0.85rem;
-            color: #666;
-            text-decoration: line-through;
-            margin-left: 8px;
-        }
-        .product-volume {
-            font-size: 0.75rem;
-            color: #666;
-            background: rgba(212,175,55,0.1);
-            padding: 3px 10px;
-            border-radius: 10px;
-        }
-        .btn-whatsapp {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #25D366, #128C7E);
-            color: #fff;
-            border: none;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-decoration: none;
-            letter-spacing: 0.5px;
-        }
-        .btn-whatsapp:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(37,211,102,0.3);
-        }
-        .btn-whatsapp i { font-size: 1.1rem; }
-
-        /* Stars Rating */
-        .stars { color: var(--gold); font-size: 0.75rem; margin-bottom: 5px; }
-
-        /* Offers Section */
-        .offer-card {
-            background: linear-gradient(135deg, rgba(212,175,55,0.08), rgba(0,0,0,0.5));
-            border: 2px solid rgba(212,175,55,0.3);
-            border-radius: 25px;
-            padding: 40px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.5s;
-        }
-        .offer-card:hover {
-            border-color: var(--gold);
-            transform: translateY(-10px);
-            box-shadow: 0 20px 60px rgba(212,175,55,0.2);
-        }
-        .offer-discount {
-            font-family: 'Playfair Display', serif;
-            font-size: 4rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--gold-light), var(--gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1;
-        }
-        .offer-card::after {
-            content: '';
-            position: absolute;
-            top: -50%; right: -50%;
-            width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(212,175,55,0.05) 0%, transparent 50%);
-            animation: offer-glow 3s ease-in-out infinite;
-        }
-        @keyframes offer-glow {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        /* About / Location */
-        .map-container {
-            border-radius: 20px;
-            overflow: hidden;
-            border: 2px solid rgba(212,175,55,0.3);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-        }
-
-        /* Search */
-        .search-box {
-            position: relative;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-        .search-box input {
-            width: 100%;
-            padding: 16px 50px 16px 25px;
-            border: 2px solid rgba(212,175,55,0.3);
-            border-radius: 50px;
-            background: rgba(20,20,20,0.9);
-            color: #fff;
-            font-size: 1rem;
-            outline: none;
-            transition: all 0.3s;
-            font-family: 'Poppins', sans-serif;
-        }
-        .search-box input:focus {
-            border-color: var(--gold);
-            box-shadow: 0 0 30px rgba(212,175,55,0.15);
-        }
-        .search-box input::placeholder { color: #666; }
-        .search-box button {
-            position: absolute;
-            right: 5px; top: 50%;
-            transform: translateY(-50%);
-            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-            border: none;
-            width: 45px; height: 45px;
-            border-radius: 50%;
-            color: #000;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-        }
-        .search-box button:hover { transform: translateY(-50%) scale(1.1); }
-
-        /* Footer */
-        .footer {
-            background: linear-gradient(180deg, var(--black), #050505);
-            border-top: 1px solid rgba(212,175,55,0.15);
-        }
-
-        /* Animations */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .fade-in-left {
-            opacity: 0;
-            transform: translateX(-60px);
-            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        .fade-in-left.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        .fade-in-right {
-            opacity: 0;
-            transform: translateX(60px);
-            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        .fade-in-right.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        .scale-in {
-            opacity: 0;
-            transform: scale(0.8);
-            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        .scale-in.visible {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        /* Counter animation */
-        .counter-box {
-            text-align: center;
-            padding: 30px;
-        }
-        .counter-num {
-            font-family: 'Playfair Display', serif;
-            font-size: 3rem;
-            font-weight: 800;
-            color: var(--gold);
-        }
-        .counter-label {
-            font-size: 0.8rem;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-top: 5px;
-        }
-
-        /* Marquee */
-        .marquee-container {
-            overflow: hidden;
-            white-space: nowrap;
-            background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-dark));
-            padding: 12px 0;
-        }
-        .marquee-text {
-            display: inline-block;
-            animation: marquee 20s linear infinite;
-            font-weight: 600;
-            color: #000;
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-        @keyframes marquee {
-            from { transform: translateX(0); }
-            to { transform: translateX(-50%); }
-        }
-
-        /* Back to top */
-        .back-to-top {
-            position: fixed;
-            bottom: 30px; right: 30px;
-            width: 50px; height: 50px;
-            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-            color: #000;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            z-index: 9998;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s;
-            box-shadow: 0 5px 20px rgba(212,175,55,0.3);
-        }
-        .back-to-top.show { opacity: 1; visibility: visible; }
-        .back-to-top:hover { transform: translateY(-5px) scale(1.1); }
-
-        /* Testimonials */
-        .testimonial-card {
-            background: linear-gradient(145deg, #141414, #1c1c1c);
-            border: 1px solid rgba(212,175,55,0.15);
-            border-radius: 20px;
-            padding: 30px;
-            transition: all 0.4s;
-        }
-        .testimonial-card:hover {
-            border-color: rgba(212,175,55,0.4);
-            transform: translateY(-5px);
-        }
-
-        /* Mobile menu */
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--gold);
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-        .mobile-menu {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(10,10,10,0.98);
-            z-index: 99999;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 25px;
-        }
-        .mobile-menu.active { display: flex; }
-        .mobile-menu .nav-link { font-size: 1.2rem; }
-        .mobile-close {
-            position: absolute;
-            top: 20px; right: 25px;
-            background: none;
-            border: none;
-            color: var(--gold);
-            font-size: 2rem;
-            cursor: pointer;
-        }
-
-        /* Search results */
-        .search-results {
-            position: absolute;
-            top: 100%;
-            left: 0; right: 0;
-            background: rgba(20,20,20,0.98);
-            border: 1px solid rgba(212,175,55,0.3);
-            border-radius: 15px;
-            margin-top: 10px;
-            max-height: 400px;
-            overflow-y: auto;
-            display: none;
-            z-index: 1000;
-        }
-        .search-results.active { display: block; }
-        .search-result-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 12px 20px;
-            cursor: pointer;
-            transition: background 0.2s;
-            text-decoration: none;
-            color: #fff;
-        }
-        .search-result-item:hover { background: rgba(212,175,55,0.1); }
-        .search-result-item img {
-            width: 50px; height: 50px;
-            border-radius: 10px;
-            object-fit: cover;
-        }
-
-        @media (max-width: 768px) {
-            .mobile-menu-btn { display: block; }
-            .nav-links-desktop { display: none !important; }
-            .bottle-3d { width: 200px; height: 280px; }
-            .product-card { margin-bottom: 20px; }
-        }
-
-        /* Luxury divider */
-        .luxury-divider {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin: 20px 0;
-        }
-        .luxury-divider span {
-            width: 60px; height: 1px;
-            background: linear-gradient(90deg, transparent, var(--gold), transparent);
-        }
-        .luxury-divider i {
-            color: var(--gold);
-            font-size: 0.8rem;
-        }
-
-        /* Category tabs */
-        .cat-tab {
-            padding: 10px 25px;
-            border: 1px solid rgba(212,175,55,0.3);
-            border-radius: 30px;
-            background: transparent;
-            color: #999;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 0.85rem;
-            font-family: 'Poppins', sans-serif;
-            letter-spacing: 1px;
-        }
-        .cat-tab:hover, .cat-tab.active {
-            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-            color: #000;
-            border-color: var(--gold);
-            font-weight: 600;
-        }
-
-        /* Special Section */
-        .special-section {
-            position: relative;
-            overflow: hidden;
-            background: linear-gradient(180deg, #0a0a0a, #111 30%, #0d0907 60%, #0a0a0a);
-        }
-        .special-section::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(ellipse at 50% 0%, rgba(212,175,55,0.08) 0%, transparent 60%),
-                        radial-gradient(ellipse at 80% 100%, rgba(212,175,55,0.05) 0%, transparent 50%);
-            pointer-events: none;
-        }
-        .special-card {
-            position: relative;
-            background: linear-gradient(145deg, #181210, #1e1814, #141010);
-            border: 1px solid rgba(212,175,55,0.25);
-            border-radius: 24px;
-            overflow: hidden;
-            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        .special-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
-        }
-        .special-card::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 24px;
-            background: radial-gradient(circle at 50% 0%, rgba(212,175,55,0.06), transparent 60%);
-            pointer-events: none;
-        }
-        .special-card:hover {
-            transform: translateY(-20px) scale(1.03);
-            border-color: var(--gold);
-            box-shadow: 0 40px 100px rgba(212,175,55,0.2), 0 0 60px rgba(212,175,55,0.08), inset 0 0 60px rgba(212,175,55,0.03);
-        }
-        .special-img-wrap {
-            position: relative;
-            height: 320px;
-            overflow: hidden;
-        }
-        .special-img-wrap img {
-            width: 100%; height: 100%;
-            object-fit: cover;
-            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.5s;
-        }
-        .special-card:hover .special-img-wrap img {
-            transform: scale(1.12);
-            filter: brightness(1.1);
-        }
-        .special-img-overlay {
-            position: absolute; inset: 0;
-            background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.9) 100%);
-        }
-        .special-crown {
-            position: absolute;
-            top: 15px; left: 15px;
-            width: 45px; height: 45px;
-            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            box-shadow: 0 5px 20px rgba(212,175,55,0.4);
-            animation: crown-glow 2s ease-in-out infinite;
-        }
-        @keyframes crown-glow {
-            0%, 100% { box-shadow: 0 5px 20px rgba(212,175,55,0.3); }
-            50% { box-shadow: 0 5px 35px rgba(212,175,55,0.7); }
-        }
-        .special-exclusive-tag {
-            position: absolute;
-            top: 15px; right: 15px;
-            background: linear-gradient(135deg, #b8860b, #ffd700, #b8860b);
-            background-size: 200% 200%;
-            animation: tag-shimmer 3s ease-in-out infinite;
-            color: #000;
-            font-size: 0.65rem;
-            font-weight: 800;
-            padding: 6px 14px;
-            border-radius: 20px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-        @keyframes tag-shimmer {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-        .special-info {
-            padding: 25px;
-            position: relative;
-            z-index: 1;
-        }
-        .special-name {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.35rem;
-            font-weight: 700;
-            color: #fff;
-            margin: 8px 0;
-        }
-        .special-price-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: linear-gradient(135deg, rgba(212,175,55,0.15), rgba(212,175,55,0.05));
-            border: 1px solid rgba(212,175,55,0.3);
-            border-radius: 12px;
-            padding: 8px 16px;
-            margin: 10px 0;
-        }
-        .special-price-amount {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.6rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--gold-light), var(--gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .btn-whatsapp-special {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #25D366, #128C7E);
-            color: #fff;
-            border: none;
-            border-radius: 14px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.4s;
-            text-decoration: none;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            position: relative;
-            overflow: hidden;
-        }
-        .btn-whatsapp-special::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
-        }
-        .btn-whatsapp-special:hover::before { left: 100%; }
-        .btn-whatsapp-special:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(37,211,102,0.4);
-        }
-        .special-header-glow {
-            position: relative;
-            display: inline-block;
-        }
-        .special-header-glow::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 200px;
-            height: 30px;
-            background: radial-gradient(ellipse, rgba(212,175,55,0.3), transparent 70%);
-            filter: blur(10px);
-        }
-        .special-float {
-            animation: special-float 4s ease-in-out infinite;
-        }
-        @keyframes special-float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-    </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SH Trend | Luxury Fashion & Global Brands</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--gold:#D4AF37;--gold-light:#F4E29A;--gold-dark:#B8941F;--black-deep:#0A0A0A;--black-card:#111;--black-soft:#1A1A1A;--black-border:#2A2A2A}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--black-deep);color:#fff;overflow-x:hidden}
+::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:var(--black-deep)}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:4px}
+a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
+.font-d{font-family:'Playfair Display',serif}
+.gold-g{background:linear-gradient(135deg,var(--gold),var(--gold-light),var(--gold))}
+.text-gg{background:linear-gradient(135deg,var(--gold),var(--gold-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.glass{background:rgba(17,17,17,.7);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(212,175,55,.15)}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
+@keyframes floatSlow{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-15px) rotate(3deg)}}
+@keyframes pulseGold{0%,100%{box-shadow:0 0 20px rgba(212,175,55,.3)}50%{box-shadow:0 0 40px rgba(212,175,55,.6)}}
+@keyframes spinSlow{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes glowBorder{0%,100%{border-color:rgba(212,175,55,.2)}50%{border-color:rgba(212,175,55,.6)}}
+@keyframes tilt3d{0%,100%{transform:perspective(1000px) rotateY(0) rotateX(0)}25%{transform:perspective(1000px) rotateY(5deg) rotateX(2deg)}75%{transform:perspective(1000px) rotateY(-5deg) rotateX(-2deg)}}
+.anim-shimmer{background:linear-gradient(90deg,var(--gold) 0%,var(--gold-light) 25%,var(--gold) 50%,var(--gold-light) 75%,var(--gold) 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 3s linear infinite}
+.anim-float{animation:float 6s ease-in-out infinite}.anim-floatSlow{animation:floatSlow 8s ease-in-out infinite}
+.anim-pulse{animation:pulseGold 2s ease-in-out infinite}.anim-spin{animation:spinSlow 20s linear infinite}
+.anim-marquee{animation:marquee 25s linear infinite}.anim-glow{animation:glowBorder 2s ease-in-out infinite}
+.anim-tilt{animation:tilt3d 8s ease-in-out infinite}
+.card3d{transition:all .5s cubic-bezier(.23,1,.32,1);transform-style:preserve-3d}
+.card3d:hover{transform:perspective(1000px) rotateY(-5deg) rotateX(5deg) translateZ(20px) scale(1.05);box-shadow:20px 20px 60px rgba(0,0,0,.5),-5px -5px 20px rgba(212,175,55,.15)}
+.reveal{opacity:0;transform:translateY(40px);transition:all .8s ease-out}.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-d1{transition-delay:.1s}.reveal-d2{transition-delay:.2s}.reveal-d3{transition-delay:.3s}.reveal-d4{transition-delay:.4s}.reveal-d5{transition-delay:.5s}.reveal-d6{transition-delay:.6s}.reveal-d7{transition-delay:.7s}.reveal-d8{transition-delay:.8s}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;transition:all .5s;padding:20px 0}.nav.scrolled{padding:12px 0}.nav.scrolled .nav-inner{background:rgba(17,17,17,.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(212,175,55,.1)}.nav-inner{transition:all .5s}
+.nav-c{max-width:1280px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-links{display:flex;align-items:center;gap:32px}
+.nav-link{font-size:13px;color:rgba(255,255,255,.6);letter-spacing:.1em;text-transform:uppercase;position:relative;transition:color .3s}.nav-link:hover{color:var(--gold)}.nav-link::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--gold);transition:width .3s}.nav-link:hover::after{width:100%}
+.nav-cta{margin-left:16px;padding:10px 24px;border-radius:50px;font-weight:600;font-size:13px;transition:all .3s}.nav-cta:hover{transform:scale(1.05);box-shadow:0 8px 30px rgba(212,175,55,.3)}
+.logo-box{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;transition:transform .5s}.logo-wrap:hover .logo-box{transform:rotate(12deg)}.logo-wrap{display:flex;align-items:center;gap:10px}
+.mob-btn{display:none;flex-direction:column;gap:5px;padding:8px;cursor:pointer;background:none;border:none}.mob-btn span{width:24px;height:2px;background:var(--gold);transition:all .3s}
+.mob-menu{display:none;max-height:0;overflow:hidden;transition:all .5s}.mob-menu.open{max-height:400px}.mob-menu-inner{padding:24px;display:flex;flex-direction:column;gap:16px}
+@media(max-width:900px){.nav-links{display:none}.mob-btn{display:flex}.mob-menu{display:block}}
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;transition:transform .7s ease-out}.hero-bg img{width:100%;height:100%;object-fit:cover}
+.hero-content{position:relative;z-index:10;max-width:1280px;margin:0 auto;padding:0 24px;width:100%}.hero-inner{max-width:720px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:50px;border:1px solid rgba(212,175,55,.3);color:var(--gold);font-size:12px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:24px}
+.hero-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);animation:pulseGold 2s infinite}
+.hero-title{font-size:clamp(48px,8vw,96px);line-height:1.08;font-weight:900}
+.hero-sub{margin-top:24px;color:rgba(255,255,255,.5);font-size:clamp(16px,2vw,20px);max-width:540px;line-height:1.7}
+.hero-btns{margin-top:36px;display:flex;flex-wrap:wrap;gap:16px}
+.btn-primary{padding:16px 32px;border-radius:50px;font-weight:700;font-size:15px;display:inline-flex;align-items:center;gap:8px;transition:all .3s;border:none;cursor:pointer}.btn-primary:hover{transform:scale(1.05);box-shadow:0 8px 30px rgba(212,175,55,.3)}
+.btn-outline{padding:16px 32px;border-radius:50px;font-weight:600;font-size:15px;display:inline-flex;align-items:center;gap:8px;transition:all .3s;border:1px solid rgba(212,175,55,.4);color:var(--gold);background:transparent;cursor:pointer}.btn-outline:hover{background:rgba(212,175,55,.1);transform:scale(1.05)}
+.hero-stats{margin-top:56px;display:flex;gap:48px}.hero-stat-num{font-size:28px;font-weight:700;color:var(--gold)}.hero-stat-lab{font-size:13px;color:rgba(255,255,255,.35);margin-top:4px}
+.scroll-ind{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;animation:float 3s ease-in-out infinite}.scroll-ind span{font-size:10px;color:rgba(212,175,55,.4);letter-spacing:.2em;text-transform:uppercase}.scroll-ind div{width:1px;height:32px;background:linear-gradient(to bottom,rgba(212,175,55,.5),transparent)}
+.deco-circle{position:absolute;border-radius:50%;pointer-events:none}
+.features{padding:60px 0;background:var(--black-soft);border-top:1px solid var(--black-border);border-bottom:1px solid var(--black-border)}
+.features-grid{max-width:1280px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.feat-item{display:flex;align-items:center;gap:16px}.feat-icon{width:56px;height:56px;border-radius:12px;border:1px solid rgba(212,175,55,.2);background:var(--black-card);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.feat-title{font-size:14px;font-weight:600}.feat-desc{font-size:12px;color:rgba(255,255,255,.4);margin-top:2px}
+@media(max-width:768px){.features-grid{grid-template-columns:repeat(2,1fr)}}
+.sec{padding:96px 0;position:relative}.sec-inner{max-width:1280px;margin:0 auto;padding:0 24px}
+.sec-top{position:absolute;top:0;left:0;width:100%;height:1px;background:linear-gradient(to right,transparent,rgba(212,175,55,.3),transparent)}
+.sec-tag{font-size:12px;color:var(--gold);letter-spacing:.3em;text-transform:uppercase}
+.sec-heading{margin-top:16px;font-size:clamp(36px,5vw,60px);font-weight:700;line-height:1.15}
+.sec-desc{margin-top:16px;color:rgba(255,255,255,.45);font-size:17px;max-width:600px;line-height:1.7}.sec-desc.center{margin-left:auto;margin-right:auto}
+.coll-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:64px}
+.coll-card{position:relative;height:560px;border-radius:16px;overflow:hidden;border:1px solid var(--black-border);transition:border-color .5s}.coll-card:hover{border-color:rgba(212,175,55,.4)}
+.coll-card img{width:100%;height:100%;object-fit:cover;transition:all .5s}.coll-card:hover img{transform:scale(1.08);filter:brightness(1.1)}
+.coll-overlay{position:absolute;inset:0;background:linear-gradient(to top,#000 0%,rgba(0,0,0,.5) 40%,transparent 100%)}
+.coll-tag{position:absolute;top:16px;left:16px;padding:4px 14px;border-radius:50px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;z-index:2}
+.coll-info{position:absolute;bottom:0;left:0;right:0;padding:28px;z-index:2}
+.coll-sub{font-size:11px;color:rgba(212,175,55,.6);letter-spacing:.15em;text-transform:uppercase}
+.coll-title{margin-top:8px;font-size:28px;font-weight:700;transition:color .3s}.coll-card:hover .coll-title{color:var(--gold)}
+.coll-text{margin-top:8px;font-size:13px;color:rgba(255,255,255,.45);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.coll-bottom{margin-top:16px;display:flex;align-items:center;justify-content:space-between}
+.coll-price{font-size:18px;font-weight:700;color:var(--gold)}.coll-items{font-size:12px;color:rgba(255,255,255,.35);margin-left:8px}
+.coll-arrow{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:transform .3s}.coll-card:hover .coll-arrow{transform:scale(1.1)}
+@media(max-width:900px){.coll-grid{grid-template-columns:1fr;max-width:500px;margin-left:auto;margin-right:auto}}
+.brands-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:64px}
+.brand-card{height:160px;border-radius:12px;border:1px solid var(--black-border);background:var(--black-card);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;position:relative;overflow:hidden;transition:all .4s}
+.brand-card:hover{border-color:rgba(212,175,55,.5);transform:perspective(1000px) rotateY(-3deg) scale(1.03)}
+.brand-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(135deg,var(--gold),var(--gold-light));transform:scaleX(0);transition:transform .4s;transform-origin:left}.brand-card:hover::after{transform:scaleX(1)}
+.brand-card h3{font-size:22px;font-weight:700;letter-spacing:.15em;color:rgba(255,255,255,.75);transition:color .3s}.brand-card:hover h3{color:var(--gold)}
+.brand-card span{font-size:10px;color:rgba(255,255,255,.25);letter-spacing:.2em}
+.marquee-wrap{margin-top:64px;overflow:hidden}.marquee-track{display:flex;white-space:nowrap}.marquee-item{margin:0 32px;font-size:36px;font-weight:700;color:rgba(255,255,255,.04)}
+@media(max-width:768px){.brands-grid{grid-template-columns:repeat(2,1fr)}}
+.prod-header{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:56px}
+.prod-card{border-radius:16px;overflow:hidden;border:1px solid var(--black-border);background:var(--black-card);transition:all .5s}
+.prod-card:hover{border-color:rgba(212,175,55,.3);transform:perspective(1000px) rotateY(-3deg) rotateX(2deg) scale(1.02);box-shadow:12px 12px 40px rgba(0,0,0,.4)}
+.prod-img-wrap{position:relative;height:320px;overflow:hidden}.prod-img-wrap img{width:100%;height:100%;object-fit:cover;transition:all .5s}.prod-card:hover .prod-img-wrap img{transform:scale(1.08);filter:brightness(1.1)}
+.prod-img-overlay{position:absolute;inset:0;background:linear-gradient(to top,var(--black-card),transparent 50%)}
+.prod-badge{position:absolute;top:12px;left:12px;padding:4px 12px;border-radius:50px;font-size:10px;font-weight:700;letter-spacing:.08em;z-index:2}
+.prod-actions{position:absolute;top:12px;right:12px;display:flex;flex-direction:column;gap:8px;opacity:0;transform:translateX(16px);transition:all .3s;z-index:2}.prod-card:hover .prod-actions{opacity:1;transform:translateX(0)}
+.prod-action-btn{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;color:#fff;transition:color .3s;background:rgba(17,17,17,.7);backdrop-filter:blur(10px)}.prod-action-btn:hover{color:var(--gold)}
+.prod-wa-overlay{position:absolute;bottom:0;left:0;right:0;padding:16px;opacity:0;transform:translateY(16px);transition:all .4s;z-index:2}.prod-card:hover .prod-wa-overlay{opacity:1;transform:translateY(0)}
+.prod-wa-btn{width:100%;padding:12px;border-radius:12px;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;gap:8px;border:none;cursor:pointer;color:#000;transition:box-shadow .3s}.prod-wa-btn:hover{box-shadow:0 8px 30px rgba(212,175,55,.3)}
+.prod-info{padding:20px}.prod-brand{font-size:11px;color:rgba(212,175,55,.5);letter-spacing:.15em;text-transform:uppercase}
+.prod-name{margin-top:4px;font-size:17px;font-weight:600;transition:color .3s}.prod-card:hover .prod-name{color:var(--gold)}
+.prod-stars{margin-top:8px;display:flex;align-items:center;gap:4px}.prod-star{width:14px;height:14px}.prod-reviews{font-size:11px;color:rgba(255,255,255,.25);margin-left:4px}
+.prod-pricing{margin-top:12px;display:flex;align-items:center;gap:12px}.prod-price{font-size:20px;font-weight:700;color:var(--gold)}.prod-old{font-size:14px;color:rgba(255,255,255,.25);text-decoration:line-through}.prod-off{margin-left:auto;padding:2px 8px;background:rgba(212,175,55,.1);color:var(--gold);font-size:11px;border-radius:6px;font-weight:500}
+@media(max-width:900px){.prod-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.prod-grid{grid-template-columns:1fr}}
+.promo{position:relative;padding:96px 0;overflow:hidden}.promo-bg{position:absolute;inset:0}.promo-bg img{width:100%;height:100%;object-fit:cover}
+.promo-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.promo-flash{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:50px;border:1px solid rgba(239,68,68,.3);color:#f87171;font-size:11px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:24px}
+.promo-flash-dot{width:8px;height:8px;border-radius:50%;background:#ef4444;animation:pulseGold 1.5s infinite}
+.promo-big{font-size:clamp(60px,10vw,96px)}
+.countdown{display:flex;gap:12px;margin-top:32px}.cd-box{display:flex;flex-direction:column;align-items:center}.cd-num{width:72px;height:72px;border-radius:12px;border:1px solid rgba(212,175,55,.3);background:var(--black-card);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:var(--gold)}.cd-label{margin-top:4px;font-size:10px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.1em}
+.promo-right{position:relative}.promo-card{border-radius:16px;overflow:hidden;border:1px solid rgba(212,175,55,.3);box-shadow:0 20px 60px rgba(0,0,0,.5);position:relative}.promo-card img{width:100%;height:400px;object-fit:cover}
+.promo-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,#000 0%,rgba(0,0,0,.3) 50%,transparent)}
+.promo-card-info{position:absolute;bottom:24px;left:24px;right:24px;display:flex;align-items:flex-end;justify-content:space-between}
+.promo-disc{position:absolute;top:-16px;right:-16px;width:80px;height:80px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(212,175,55,.3)}.promo-disc-num{font-size:22px;font-weight:900;color:#000;line-height:1}.promo-disc-off{font-size:10px;font-weight:700;color:#000}
+@media(max-width:900px){.promo-grid{grid-template-columns:1fr}.promo-right{margin-top:40px}}
+.test-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:64px}
+.test-card{padding:24px;border-radius:16px;border:1px solid var(--black-border);background:var(--black-card);cursor:pointer;transition:all .4s;position:relative;overflow:hidden}
+.test-card.active{border-color:rgba(212,175,55,.5);box-shadow:0 8px 30px rgba(212,175,55,.08)}
+.test-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(135deg,var(--gold),var(--gold-light));transform:scaleX(0);transition:transform .4s;transform-origin:left}.test-card.active::after{transform:scaleX(1)}
+.test-quote{font-size:48px;color:rgba(212,175,55,.15);line-height:1}.test-text{margin-top:8px;font-size:14px;color:rgba(255,255,255,.6);line-height:1.7}
+.test-author{margin-top:20px;display:flex;align-items:center;gap:12px}.test-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px}
+.test-name{font-size:14px;font-weight:600}.test-loc{font-size:12px;color:rgba(255,255,255,.35)}
+.test-stars{margin-top:12px;display:flex;gap:4px}
+.test-dots{margin-top:32px;display:flex;justify-content:center;gap:8px}
+.test-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.15);border:none;cursor:pointer;transition:all .3s;padding:0}.test-dot.active{width:32px;border-radius:4px;background:var(--gold)}
+@media(max-width:900px){.test-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.test-grid{grid-template-columns:1fr}}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;margin-top:64px}
+.contact-items{display:flex;flex-direction:column;gap:20px;margin-top:40px}
+.contact-item{display:flex;align-items:center;gap:16px;padding:16px;border-radius:12px;border:1px solid var(--black-border);background:var(--black-card);transition:all .3s}.contact-item:hover{border-color:rgba(212,175,55,.3);transform:scale(1.02)}
+.contact-icon{width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.contact-label{font-size:14px;font-weight:600}.contact-val{font-size:17px;color:var(--gold)}.contact-val2{font-size:14px;color:rgba(255,255,255,.45)}
+.cta-card{border-radius:24px;border:1px solid rgba(212,175,55,.2);background:var(--black-card);padding:48px;text-align:center;position:relative;overflow:hidden}
+.cta-corner{position:absolute;background:rgba(212,175,55,.05)}.cta-corner-tr{top:0;right:0;width:128px;height:128px;border-bottom-left-radius:100%}.cta-corner-bl{bottom:0;left:0;width:96px;height:96px;border-top-right-radius:100%}
+.cta-icon{width:80px;height:80px;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 24px}
+.cta-btn{margin-top:32px;width:100%;padding:18px;border-radius:12px;font-weight:700;font-size:17px;display:flex;align-items:center;justify-content:center;gap:12px;border:none;cursor:pointer;color:#000;transition:all .3s}.cta-btn:hover{transform:scale(1.03);box-shadow:0 12px 40px rgba(212,175,55,.3)}
+.cta-checks{margin-top:24px;display:flex;align-items:center;justify-content:center;gap:24px;font-size:13px;color:rgba(255,255,255,.3);flex-wrap:wrap}.cta-check{display:flex;align-items:center;gap:4px}
+@media(max-width:900px){.contact-grid{grid-template-columns:1fr}}
+.footer{background:var(--black-card);border-top:1px solid var(--black-border);padding:64px 0 0}
+.footer-grid{max-width:1280px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:1.5fr 1fr 1fr 1.5fr;gap:40px}
+.footer-desc{margin-top:16px;font-size:14px;color:rgba(255,255,255,.35);line-height:1.7}
+.footer-socials{margin-top:24px;display:flex;gap:12px}
+.footer-social{width:40px;height:40px;border-radius:12px;border:1px solid var(--black-border);display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(255,255,255,.4);transition:all .3s;text-transform:uppercase}.footer-social:hover{border-color:rgba(212,175,55,.4);color:var(--gold);transform:scale(1.1)}
+.footer-heading{font-size:13px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;margin-bottom:16px}
+.footer-links{display:flex;flex-direction:column;gap:12px}
+.footer-link{font-size:14px;color:rgba(255,255,255,.35);transition:color .3s;display:flex;align-items:center;gap:8px}.footer-link:hover{color:var(--gold)}.footer-link::before{content:'';width:0;height:1px;background:var(--gold);transition:width .3s}.footer-link:hover::before{width:8px}
+.footer-email{display:flex;gap:8px}.footer-email input{flex:1;padding:12px 16px;background:var(--black-deep);border:1px solid var(--black-border);border-radius:12px;color:#fff;font-size:13px;outline:none;transition:border-color .3s}.footer-email input:focus{border-color:rgba(212,175,55,.4)}.footer-email input::placeholder{color:rgba(255,255,255,.2)}
+.footer-email button{padding:12px 16px;border-radius:12px;border:none;cursor:pointer;font-weight:700;font-size:16px;color:#000;transition:all .3s}.footer-email button:hover{transform:scale(1.05)}
+.footer-bottom{max-width:1280px;margin:48px auto 0;padding:24px;border-top:1px solid var(--black-border);display:flex;align-items:center;justify-content:space-between;font-size:13px;color:rgba(255,255,255,.25)}
+@media(max-width:900px){.footer-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.footer-grid{grid-template-columns:1fr}.hero-stats{gap:24px}.footer-bottom{flex-direction:column;gap:8px}}
+.wa-float{position:fixed;bottom:24px;right:24px;z-index:200;display:flex;align-items:flex-end;gap:12px}
+.wa-tooltip{background:#fff;color:#000;padding:12px 16px;border-radius:12px;border-bottom-right-radius:4px;font-size:14px;font-weight:500;max-width:200px;box-shadow:0 8px 30px rgba(0,0,0,.3);transition:all .5s;opacity:0;transform:translateX(16px)}.wa-tooltip.show{opacity:1;transform:translateX(0)}
+.wa-btn{width:64px;height:64px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(37,211,102,.3);transition:all .3s;position:relative;border:none;cursor:pointer}.wa-btn:hover{transform:scale(1.15) rotate(5deg);box-shadow:0 12px 50px rgba(37,211,102,.5)}
+.wa-btn svg{width:32px;height:32px;fill:#fff}
+.wa-notif{position:absolute;top:-4px;right:-4px;width:20px;height:20px;background:#ef4444;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;animation:float 2s ease-in-out infinite}
+.wa-ripple{position:absolute;inset:0;border-radius:50%;background:#25D366;opacity:.3;animation:pulseGold 2s infinite}
+.icon{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.wa-svg{width:20px;height:20px;fill:currentColor}
+#root{display:none}
+</style>
 </head>
 <body>
+<div id="root"></div>
+<script type="module" src="/src/main.tsx"></script>
 
-<!-- Preloader -->
-<div id="preloader">
-    <div class="loader-ring"></div>
-    <div class="loader-ring"></div>
-    <img src="https://i.imgur.com/IwUUSvP.jpeg" alt="Hamdan Perfume" class="loader-logo">
-    <p style="margin-top:30px; color: var(--gold); letter-spacing: 5px; text-transform: uppercase; font-size: 0.8rem;">Loading Luxury...</p>
-</div>
+<!-- NAVBAR -->
+<nav class="nav" id="navbar"><div class="nav-inner"><div class="nav-c">
+<a href="#home" class="logo-wrap"><div class="logo-box gold-g"><span style="color:#000;font-weight:700;font-size:18px" class="font-d">SH</span></div><div><div class="font-d text-gg" style="font-size:22px;font-weight:700;line-height:1.1">SH TREND</div><div style="font-size:9px;letter-spacing:.25em;color:var(--gold-dark);text-transform:uppercase">Luxury Fashion</div></div></a>
+<div class="nav-links"><a href="#home" class="nav-link">Home</a><a href="#collections" class="nav-link">Collections</a><a href="#brands" class="nav-link">Brands</a><a href="#arrivals" class="nav-link">New Arrivals</a><a href="#contact" class="nav-link">Contact</a><a href="https://wa.me/96181390874" target="_blank" class="nav-cta gold-g" style="color:#000">Shop Now</a></div>
+<button class="mob-btn" onclick="toggleMob()"><span id="mb1"></span><span id="mb2"></span><span id="mb3"></span></button>
+</div></div>
+<div class="mob-menu" id="mobMenu"><div class="mob-menu-inner glass" style="margin:12px 16px;border-radius:16px"><a href="#home" class="nav-link" onclick="closeMob()">Home</a><a href="#collections" class="nav-link" onclick="closeMob()">Collections</a><a href="#brands" class="nav-link" onclick="closeMob()">Brands</a><a href="#arrivals" class="nav-link" onclick="closeMob()">New Arrivals</a><a href="#contact" class="nav-link" onclick="closeMob()">Contact</a><a href="https://wa.me/96181390874" target="_blank" class="gold-g" style="color:#000;text-align:center;padding:14px;border-radius:50px;font-weight:600">Shop on WhatsApp</a></div></div></nav>
 
-<!-- Back to Top -->
-<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
-    <i class="fas fa-chevron-up"></i>
-</button>
-
-<!-- Mobile Menu -->
-<div class="mobile-menu" id="mobileMenu">
-    <button class="mobile-close" onclick="document.getElementById('mobileMenu').classList.remove('active')"><i class="fas fa-times"></i></button>
-    <a href="#home" class="nav-link" onclick="document.getElementById('mobileMenu').classList.remove('active')">Home</a>
-    <a href="#collections" class="nav-link" onclick="document.getElementById('mobileMenu').classList.remove('active')">Collections</a>
-    <a href="#special" class="nav-link" onclick="document.getElementById('mobileMenu').classList.remove('active')" style="color:var(--gold);">★ Special</a>
-    <a href="#offers" class="nav-link" onclick="document.getElementById('mobileMenu').classList.remove('active')">Offers</a>
-    <a href="#about" class="nav-link" onclick="document.getElementById('mobileMenu').classList.remove('active')">About</a>
-    <a href="#location" class="nav-link" onclick="document.getElementById('mobileMenu').classList.remove('active')">Location</a>
-    <a href="#contact" class="nav-link" onclick="document.getElementById('mobileMenu').classList.remove('active')">Contact</a>
-</div>
-
-<!-- Navbar -->
-<nav class="navbar" id="navbar">
-    <div style="max-width:1400px; margin:0 auto; padding:0 20px; display:flex; align-items:center; justify-content:space-between;">
-        <div style="display:flex; align-items:center; gap:12px;">
-            <img src="https://i.imgur.com/IwUUSvP.jpeg" alt="Hamdan Perfume" class="nav-logo">
-            <div>
-                <div style="font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:700; color:var(--gold);">HAMDAN</div>
-                <div style="font-size:0.6rem; letter-spacing:3px; color:#888; text-transform:uppercase;">Perfume House</div>
-            </div>
-        </div>
-        <div class="nav-links-desktop" style="display:flex; align-items:center; gap:30px;">
-            <a href="#home" class="nav-link">Home</a>
-            <a href="#collections" class="nav-link">Collections</a>
-            <a href="#special" class="nav-link" style="color:var(--gold);">★ Special</a>
-            <a href="#offers" class="nav-link">Offers</a>
-            <a href="#about" class="nav-link">About</a>
-            <a href="#location" class="nav-link">Location</a>
-            <a href="#contact" class="nav-link">Contact</a>
-        </div>
-        <div style="display:flex; align-items:center; gap:15px;">
-            <button onclick="document.getElementById('searchModal').style.display='flex'" style="background:none; border:none; color:var(--gold); cursor:pointer; font-size:1.1rem;"><i class="fas fa-search"></i></button>
-            <button class="mobile-menu-btn" onclick="document.getElementById('mobileMenu').classList.add('active')"><i class="fas fa-bars"></i></button>
-        </div>
-    </div>
-</nav>
-
-<!-- Search Modal -->
-<div id="searchModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.95); z-index:99999; align-items:flex-start; justify-content:center; padding-top:120px;">
-    <div style="width:90%; max-width:600px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-            <h3 style="font-family:'Playfair Display',serif; color:var(--gold); font-size:1.5rem;">Search Products</h3>
-            <button onclick="document.getElementById('searchModal').style.display='none'" style="background:none; border:none; color:#fff; font-size:1.5rem; cursor:pointer;"><i class="fas fa-times"></i></button>
-        </div>
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Search for perfumes..." oninput="searchProducts(this.value)">
-            <button><i class="fas fa-search"></i></button>
-            <div class="search-results" id="searchResults"></div>
-        </div>
-    </div>
-</div>
-
-<!-- Hero Section -->
+<!-- HERO -->
 <section class="hero" id="home">
-    <div class="hero-bg"></div>
-    <div class="hero-overlay"></div>
-    <div class="hero-particles" id="particles"></div>
-    <div style="position:relative; z-index:10; max-width:1400px; margin:0 auto; padding:0 20px; display:flex; align-items:center; flex-wrap:wrap; width:100%;">
-        <div style="flex:1; min-width:300px; padding:20px;">
-            <div class="hero-badge fade-in">
-                <i class="fas fa-crown"></i> #1 Perfume Store in Lebanon 2026
-            </div>
-            <h1 class="hero-title fade-in" style="margin-top:20px;">
-                Hamdan<br>Perfume
-            </h1>
-            <p class="hero-subtitle fade-in" style="margin-top:10px;">Where Luxury Meets Fragrance</p>
-            <p class="fade-in" style="color:#aaa; margin-top:15px; max-width:500px; font-size:0.95rem; line-height:1.8;">
-                Discover the finest collection of luxury perfumes in Lebanon. Authentic fragrances from the world's most prestigious brands, curated exclusively for you.
-            </p>
-            <div class="fade-in" style="display:flex; gap:15px; margin-top:30px; flex-wrap:wrap;">
-                <a href="#collections" class="btn-gold"><i class="fas fa-gem"></i> Explore Collection</a>
-                <a href="#contact" class="btn-outline"><i class="fab fa-whatsapp"></i> Contact Us</a>
-            </div>
-            <div class="fade-in" style="display:flex; gap:30px; margin-top:40px; flex-wrap:wrap;">
-                <div class="counter-box" style="padding:0; text-align:left;">
-                    <div class="counter-num" data-target="500">0+</div>
-                    <div class="counter-label">Products</div>
-                </div>
-                <div class="counter-box" style="padding:0; text-align:left;">
-                    <div class="counter-num" data-target="50">0+</div>
-                    <div class="counter-label">Brands</div>
-                </div>
-                <div class="counter-box" style="padding:0; text-align:left;">
-                    <div class="counter-num" data-target="10000">0+</div>
-                    <div class="counter-label">Happy Clients</div>
-                </div>
-            </div>
-        </div>
-        <div style="flex:1; min-width:300px; display:flex; justify-content:center; padding:20px;">
-            <div class="bottle-3d-container fade-in-right">
-                <div class="bottle-3d">
-                    <img src="https://images.pexels.com/photos/7702669/pexels-photo-7702669.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=600&w=400" alt="Luxury Perfume">
-                    <div class="glow-ring"></div>
-                    <div class="glow-ring" style="animation-delay: 0.5s; width: 250px; height: 250px;"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Marquee -->
-<div class="marquee-container">
-    <span class="marquee-text">
-        ✦ Best Perfume Store in Lebanon 2026 ✦ Authentic Fragrances ✦ Free Consultation ✦ Premium Quality ✦ Versace ✦ Dior ✦ Chanel ✦ Tom Ford ✦ Creed ✦ Armani ✦ Gucci ✦ YSL ✦ Bvlgari ✦ Prada ✦ Best Perfume Store in Lebanon 2026 ✦ Authentic Fragrances ✦ Free Consultation ✦ Premium Quality ✦ Versace ✦ Dior ✦ Chanel ✦ Tom Ford ✦ Creed ✦ Armani ✦ Gucci ✦ YSL ✦ Bvlgari ✦ Prada ✦
-    </span>
+<div class="hero-bg" id="heroBg"><img src="https://images.pexels.com/photos/16791444/pexels-photo-16791444.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200" alt="Fashion"></div>
+<div style="position:absolute;inset:0;background:linear-gradient(to right,#000,rgba(0,0,0,.8),rgba(0,0,0,.35))"></div>
+<div style="position:absolute;inset:0;background:linear-gradient(to top,var(--black-deep),transparent 40%,rgba(0,0,0,.4))"></div>
+<div class="deco-circle" style="top:80px;right:40px;width:280px;height:280px;background:rgba(212,175,55,.04);filter:blur(60px);animation:float 6s ease-in-out infinite"></div>
+<div class="deco-circle anim-spin" style="top:50%;left:50%;transform:translate(-50%,-50%);width:650px;height:650px;border:1px solid rgba(212,175,55,.07);opacity:.5"></div>
+<div class="hero-content"><div class="hero-inner">
+<div class="reveal" data-reveal><div class="hero-badge"><span class="hero-dot"></span>New Collection 2025</div></div>
+<h1 class="reveal" data-reveal><span class="hero-title font-d" style="color:#fff;display:block">Redefine</span><span class="hero-title font-d anim-shimmer" style="display:block">Your Style</span><span class="hero-title font-d" style="color:#fff;display:block">With Luxury</span></h1>
+<p class="hero-sub reveal" data-reveal>Discover exclusive global brands, premium streetwear, and elegant fashion curated for those who dare to stand out.</p>
+<div class="hero-btns reveal" data-reveal>
+<a href="#collections" class="btn-primary gold-g" style="color:#000">Explore Collections <svg class="icon" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+<a href="https://wa.me/96181390874?text=Hi%20SH%20Trend!%20I'm%20interested%20in%20your%20collection" target="_blank" class="btn-outline"><svg class="wa-svg" style="fill:var(--gold)" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Order on WhatsApp</a>
 </div>
+<div class="hero-stats reveal" data-reveal><div><div class="hero-stat-num font-d">500+</div><div class="hero-stat-lab">Products</div></div><div><div class="hero-stat-num font-d">50+</div><div class="hero-stat-lab">Global Brands</div></div><div><div class="hero-stat-num font-d">10K+</div><div class="hero-stat-lab">Happy Clients</div></div></div>
+</div></div><div class="scroll-ind"><span>Scroll</span><div></div></div></section>
 
-<!-- Collections Section -->
-<section id="collections" style="padding:80px 0;">
-    <div style="max-width:1400px; margin:0 auto; padding:0 20px;">
-        <div class="fade-in">
-            <p class="section-sub"><i class="fas fa-gem"></i> Our Exclusive Collection</p>
-            <h2 class="section-title">Luxury Fragrances</h2>
-            <div class="section-line"></div>
-            <p style="text-align:center; color:#777; max-width:600px; margin:15px auto; font-size:0.9rem;">Explore our handpicked selection of the world's finest perfumes. Each fragrance tells a unique story of elegance and sophistication.</p>
-        </div>
+<!-- FEATURES -->
+<section class="features"><div class="features-grid">
+<div class="feat-item reveal" data-reveal><div class="feat-icon">🚚</div><div><div class="feat-title">Free Shipping</div><div class="feat-desc">Nationwide delivery</div></div></div>
+<div class="feat-item reveal reveal-d1" data-reveal><div class="feat-icon">✅</div><div><div class="feat-title">100% Authentic</div><div class="feat-desc">Guaranteed genuine</div></div></div>
+<div class="feat-item reveal reveal-d2" data-reveal><div class="feat-icon">💬</div><div><div class="feat-title">WhatsApp Support</div><div class="feat-desc">Instant replies</div></div></div>
+<div class="feat-item reveal reveal-d3" data-reveal><div class="feat-icon">↩️</div><div><div class="feat-title">Easy Returns</div><div class="feat-desc">14-day return policy</div></div></div>
+</div></section>
 
-        <!-- Category Tabs -->
-        <div class="fade-in" style="display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin:40px 0 50px;">
-            <button class="cat-tab active" onclick="filterCategory('all', this)">All Brands</button>
-            <button class="cat-tab" onclick="filterCategory('versace', this)">Versace</button>
-            <button class="cat-tab" onclick="filterCategory('dior', this)">Dior</button>
-            <button class="cat-tab" onclick="filterCategory('chanel', this)">Chanel</button>
-            <button class="cat-tab" onclick="filterCategory('tomford', this)">Tom Ford</button>
-            <button class="cat-tab" onclick="filterCategory('creed', this)">Creed</button>
-            <button class="cat-tab" onclick="filterCategory('armani', this)">Armani</button>
-            <button class="cat-tab" onclick="filterCategory('gucci', this)">Gucci</button>
-            <button class="cat-tab" onclick="filterCategory('ysl', this)">YSL</button>
-            <button class="cat-tab" onclick="filterCategory('bvlgari', this)">Bvlgari</button>
-            <button class="cat-tab" onclick="filterCategory('prada', this)">Prada</button>
-        </div>
+<!-- COLLECTIONS -->
+<section class="sec" id="collections" style="background:var(--black-deep)"><div class="sec-top"></div><div class="sec-inner">
+<div style="text-align:center" class="reveal" data-reveal><div class="sec-tag">Our Collections</div><h2 class="sec-heading font-d"><span style="color:#fff">Explore </span><span class="text-gg">Premium</span><span style="color:#fff"> Fashion</span></h2><p class="sec-desc center">Three curated collections featuring the finest global brands and latest trends</p></div>
+<div class="coll-grid">
+<div class="card3d reveal reveal-d2" data-reveal><div class="coll-card"><img src="https://images.pexels.com/photos/33290977/pexels-photo-33290977.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" alt="Men" loading="lazy"><div class="coll-overlay"></div><div class="coll-tag gold-g" style="color:#000">Bestseller</div><div class="coll-info"><div class="coll-sub">Premium Suits & Formal Wear</div><h3 class="coll-title font-d">Men's Elegance</h3><p class="coll-text">Handcrafted suits, designer shirts, and accessories for the modern gentleman.</p><div class="coll-bottom"><div><span class="coll-price">From $120</span><span class="coll-items">• 120+ Items</span></div><a href="https://wa.me/96181390874?text=Hi%20SH%20Trend!%20Show%20me%20Men's%20collection" target="_blank" class="coll-arrow gold-g" style="color:#000"><svg class="icon" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a></div></div></div></div>
+<div class="card3d reveal reveal-d4" data-reveal><div class="coll-card"><img src="https://images.pexels.com/photos/29368493/pexels-photo-29368493.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" alt="Women" loading="lazy"><div class="coll-overlay"></div><div class="coll-tag gold-g" style="color:#000">Trending</div><div class="coll-info"><div class="coll-sub">Elegant Dresses & Couture</div><h3 class="coll-title font-d">Women's Haute</h3><p class="coll-text">Stunning dresses, designer outfits, and luxury fashion pieces for every occasion.</p><div class="coll-bottom"><div><span class="coll-price">From $95</span><span class="coll-items">• 200+ Items</span></div><a href="https://wa.me/96181390874?text=Hi%20SH%20Trend!%20Show%20me%20Women's%20collection" target="_blank" class="coll-arrow gold-g" style="color:#000"><svg class="icon" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a></div></div></div></div>
+<div class="card3d reveal reveal-d6" data-reveal><div class="coll-card"><img src="https://images.pexels.com/photos/35573870/pexels-photo-35573870.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" alt="Street" loading="lazy"><div class="coll-overlay"></div><div class="coll-tag gold-g" style="color:#000">New Drop</div><div class="coll-info"><div class="coll-sub">Premium Street Fashion</div><h3 class="coll-title font-d">Urban Streetwear</h3><p class="coll-text">Bold streetwear, sneakers, and urban fashion from top global brands.</p><div class="coll-bottom"><div><span class="coll-price">From $65</span><span class="coll-items">• 180+ Items</span></div><a href="https://wa.me/96181390874?text=Hi%20SH%20Trend!%20Show%20me%20Streetwear%20collection" target="_blank" class="coll-arrow gold-g" style="color:#000"><svg class="icon" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a></div></div></div></div>
+</div></div></section>
 
-        <div id="productsContainer"></div>
-    </div>
-</section>
+<!-- BRANDS -->
+<section class="sec" id="brands" style="background:var(--black-soft);overflow:hidden"><div class="sec-top"></div>
+<div class="deco-circle anim-spin" style="top:40px;left:40px;width:160px;height:160px;border:1px solid rgba(212,175,55,.08)"></div>
+<div class="deco-circle anim-spin" style="bottom:40px;right:40px;width:240px;height:240px;border:1px solid rgba(212,175,55,.08);animation-direction:reverse"></div>
+<div class="sec-inner"><div style="text-align:center" class="reveal" data-reveal><div class="sec-tag">Global Partners</div><h2 class="sec-heading font-d"><span style="color:#fff">World-Class </span><span class="text-gg">Brands</span></h2><p class="sec-desc center">We bring you authenticated luxury from the world's most prestigious fashion houses</p></div>
+<div class="brands-grid">
+<div class="brand-card anim-glow reveal reveal-d1" data-reveal><h3 class="font-d">GUCCI</h3><span>EST. 1921</span></div>
+<div class="brand-card anim-glow reveal reveal-d2" data-reveal style="animation-delay:.3s"><h3 class="font-d">VERSACE</h3><span>EST. 1978</span></div>
+<div class="brand-card anim-glow reveal reveal-d3" data-reveal style="animation-delay:.6s"><h3 class="font-d">BALENCIAGA</h3><span>EST. 1919</span></div>
+<div class="brand-card anim-glow reveal reveal-d4" data-reveal style="animation-delay:.9s"><h3 class="font-d">PRADA</h3><span>EST. 1913</span></div>
+<div class="brand-card anim-glow reveal reveal-d5" data-reveal style="animation-delay:1.2s"><h3 class="font-d">DIOR</h3><span>EST. 1946</span></div>
+<div class="brand-card anim-glow reveal reveal-d6" data-reveal style="animation-delay:1.5s"><h3 class="font-d">LOUIS VUITTON</h3><span>EST. 1854</span></div>
+<div class="brand-card anim-glow reveal reveal-d7" data-reveal style="animation-delay:1.8s"><h3 class="font-d">BURBERRY</h3><span>EST. 1856</span></div>
+<div class="brand-card anim-glow reveal reveal-d8" data-reveal style="animation-delay:2.1s"><h3 class="font-d">FENDI</h3><span>EST. 1925</span></div>
+</div>
+<div class="marquee-wrap reveal" data-reveal><div class="marquee-track anim-marquee">
+<span class="marquee-item font-d">GUCCI</span><span class="marquee-item font-d">VERSACE</span><span class="marquee-item font-d">BALENCIAGA</span><span class="marquee-item font-d">PRADA</span><span class="marquee-item font-d">DIOR</span><span class="marquee-item font-d">LOUIS VUITTON</span><span class="marquee-item font-d">BURBERRY</span><span class="marquee-item font-d">FENDI</span>
+<span class="marquee-item font-d">GUCCI</span><span class="marquee-item font-d">VERSACE</span><span class="marquee-item font-d">BALENCIAGA</span><span class="marquee-item font-d">PRADA</span><span class="marquee-item font-d">DIOR</span><span class="marquee-item font-d">LOUIS VUITTON</span><span class="marquee-item font-d">BURBERRY</span><span class="marquee-item font-d">FENDI</span>
+</div></div></div></section>
 
-<!-- ★ SPECIAL PERFUMES SECTION ★ -->
-<section id="special" class="special-section" style="padding:100px 0;">
-    <div style="max-width:1400px; margin:0 auto; padding:0 20px; position:relative; z-index:1;">
+<!-- NEW ARRIVALS -->
+<section class="sec" id="arrivals" style="background:var(--black-deep)"><div class="sec-top"></div><div class="sec-inner">
+<div class="prod-header reveal" data-reveal><div><div class="sec-tag">Just Dropped</div><h2 class="sec-heading font-d"><span style="color:#fff">New </span><span class="text-gg">Arrivals</span></h2><p class="sec-desc">Fresh styles just landed — get them before everyone else.</p></div><a href="https://wa.me/96181390874?text=Hi%20SH%20Trend!%20Show%20me%20new%20arrivals" target="_blank" class="btn-outline" style="white-space:nowrap">View All →</a></div>
+<div class="prod-grid" id="prodGrid"></div>
+</div></section>
 
-        <!-- Section Header -->
-        <div class="fade-in" style="text-align:center; margin-bottom:60px;">
-            <div style="display:inline-flex; align-items:center; gap:10px; background:linear-gradient(135deg, rgba(212,175,55,0.12), rgba(212,175,55,0.03)); border:1px solid rgba(212,175,55,0.25); border-radius:50px; padding:8px 24px; margin-bottom:20px;">
-                <span style="font-size:1.1rem;">👑</span>
-                <span style="font-size:0.75rem; color:var(--gold-light); letter-spacing:3px; text-transform:uppercase; font-weight:600;">Handpicked by Our Experts</span>
-                <span style="font-size:1.1rem;">👑</span>
-            </div>
-            <h2 class="special-header-glow" style="font-family:'Playfair Display',serif; font-size:clamp(2.2rem,5vw,4rem); font-weight:800; background:linear-gradient(135deg, #ffd700, #fff, #ffd700, #b8860b); background-size:300% 300%; -webkit-background-clip:text; -webkit-text-fill-color:transparent; animation:shimmer 4s ease-in-out infinite;">
-                ✦ Special Collection ✦
-            </h2>
-            <div style="width:120px; height:3px; background:linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent); margin:20px auto;"></div>
-            <p style="color:#999; max-width:650px; margin:0 auto; font-size:0.95rem; line-height:1.8;">Our most exclusive and rare fragrances — limited editions and signature scents you won't find anywhere else in Lebanon. True luxury for the distinguished connoisseur.</p>
-        </div>
+<!-- PROMO -->
+<section class="promo"><div class="promo-bg"><img src="https://images.pexels.com/photos/10147910/pexels-photo-10147910.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200" alt="Promo"><div style="position:absolute;inset:0;background:rgba(0,0,0,.82)"></div><div style="position:absolute;inset:0;background:linear-gradient(to right,#000,rgba(0,0,0,.9),rgba(0,0,0,.6))"></div></div>
+<div class="deco-circle anim-float" style="top:40px;right:80px;width:128px;height:128px;border:1px solid rgba(212,175,55,.15)"></div>
+<div class="sec-inner" style="position:relative;z-index:10"><div class="promo-grid">
+<div class="reveal" data-reveal>
+<div class="promo-flash"><span class="promo-flash-dot"></span>Flash Sale — Limited Time</div>
+<h2 class="sec-heading font-d" style="line-height:1.1"><span style="color:#fff">Up to </span><span class="anim-shimmer promo-big">50%</span><br><span style="color:#fff">Off Everything</span></h2>
+<p class="sec-desc" style="margin-top:24px">Don't miss our biggest sale of the season. Premium fashion at unbeatable prices.</p>
+<p style="color:rgba(255,255,255,.35);font-size:13px;margin-top:32px">Sale ends in:</p>
+<div class="countdown"><div class="cd-box"><div class="cd-num font-d" id="cdH">23</div><div class="cd-label">Hours</div></div><div class="cd-box"><div class="cd-num font-d" id="cdM">59</div><div class="cd-label">Min</div></div><div class="cd-box"><div class="cd-num font-d" id="cdS">59</div><div class="cd-label">Sec</div></div></div>
+<div style="margin-top:40px"><a href="https://wa.me/96181390874?text=Hi%20SH%20Trend!%20I%20want%20the%2050%25%20OFF%20deal!" target="_blank" class="btn-primary gold-g" style="color:#000"><svg class="wa-svg" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Grab the Deal Now</a></div>
+</div>
+<div class="promo-right reveal reveal-d3" data-reveal><div class="anim-tilt"><div class="promo-card"><img src="https://images.pexels.com/photos/6234216/pexels-photo-6234216.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" alt="Sale" loading="lazy"><div class="promo-card-overlay"></div><div class="promo-card-info"><div><p style="color:var(--gold);font-size:14px;font-weight:600">Special Bundle</p><p class="font-d" style="font-size:24px;font-weight:700">Complete Look Set</p></div><div style="text-align:right"><p style="color:rgba(255,255,255,.35);text-decoration:line-through;font-size:14px">$899</p><p style="color:var(--gold);font-size:30px;font-weight:700">$449</p></div></div></div></div><div class="promo-disc gold-g anim-pulse"><span class="promo-disc-num">50%</span><span class="promo-disc-off">OFF</span></div></div>
+</div></div></section>
 
-        <!-- Special Products Grid -->
-        <div id="specialProductsGrid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:30px;"></div>
+<!-- TESTIMONIALS -->
+<section class="sec" style="background:var(--black-soft)"><div class="sec-top"></div><div class="sec-inner">
+<div style="text-align:center" class="reveal" data-reveal><div class="sec-tag">Testimonials</div><h2 class="sec-heading font-d"><span style="color:#fff">What Our </span><span class="text-gg">Clients Say</span></h2></div>
+<div class="test-grid" id="testGrid"></div><div class="test-dots" id="testDots"></div>
+</div></section>
 
-        <!-- Bottom CTA -->
-        <div class="fade-in" style="text-align:center; margin-top:60px;">
-            <div style="background:linear-gradient(135deg, rgba(212,175,55,0.08), rgba(0,0,0,0.3)); border:1px solid rgba(212,175,55,0.2); border-radius:20px; padding:40px; max-width:700px; margin:0 auto;">
-                <p style="font-family:'Great Vibes',cursive; font-size:1.5rem; color:var(--gold-light); margin-bottom:10px;">Interested in something truly unique?</p>
-                <p style="color:#888; font-size:0.9rem; margin-bottom:25px;">Contact us for personalized perfume consultations and exclusive access to rare fragrances.</p>
-                <a href="https://wa.me/96170580593?text=Hello%20Hamdan%20Perfume!%20%F0%9F%91%91%20I'm%20interested%20in%20your%20Special%20Collection.%20Can%20you%20tell%20me%20more%3F" target="_blank" class="btn-gold">
-                    <i class="fab fa-whatsapp"></i> Ask About Special Perfumes
-                </a>
-            </div>
-        </div>
+<!-- CONTACT -->
+<section class="sec" id="contact" style="background:var(--black-deep)"><div class="sec-top"></div><div class="sec-inner"><div class="contact-grid">
+<div class="reveal" data-reveal>
+<div class="sec-tag">Get In Touch</div><h2 class="sec-heading font-d"><span style="color:#fff">Ready to </span><span class="text-gg">Upgrade</span><br><span style="color:#fff">Your Style?</span></h2>
+<p class="sec-desc">Message us directly on WhatsApp for the fastest response. Browse, ask about sizes, request custom orders!</p>
+<div class="contact-items">
+<a href="https://wa.me/96181390874" target="_blank" class="contact-item"><div class="contact-icon" style="background:rgba(37,211,102,.1)"><svg style="width:28px;height:28px;fill:#4ade80" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></div><div><div class="contact-label">WhatsApp</div><div class="contact-val font-d">+961 81 390 874</div></div><svg class="icon" style="margin-left:auto;color:rgba(255,255,255,.2)" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></a>
+<div class="contact-item"><div class="contact-icon" style="background:rgba(212,175,55,.1)"><span style="font-size:24px">📍</span></div><div><div class="contact-label">Location</div><div class="contact-val2">Lebanon — Shipping Nationwide</div></div></div>
+<div class="contact-item"><div class="contact-icon" style="background:rgba(212,175,55,.1)"><span style="font-size:24px">🕐</span></div><div><div class="contact-label">Working Hours</div><div class="contact-val2">Mon–Sat: 10AM – 9PM</div></div></div>
+</div></div>
+<div class="reveal reveal-d3" data-reveal><div class="cta-card"><div class="cta-corner cta-corner-tr"></div><div class="cta-corner cta-corner-bl"></div><div style="position:relative;z-index:1">
+<div class="cta-icon gold-g anim-pulse"><svg style="width:40px;height:40px;fill:#000" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></div>
+<h3 class="font-d" style="font-size:28px;font-weight:700">Start Shopping Now</h3>
+<p style="margin-top:16px;color:rgba(255,255,255,.45);line-height:1.7">Tap the button below to chat with us on WhatsApp. Browse products, ask questions, and place your order!</p>
+<a href="https://wa.me/96181390874?text=Hi%20SH%20Trend!%20I'd%20like%20to%20place%20an%20order!" target="_blank" class="cta-btn gold-g"><svg style="width:24px;height:24px;fill:#000" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Chat & Order on WhatsApp</a>
+<div class="cta-checks"><span class="cta-check">✅ Free Shipping</span><span class="cta-check">✅ Fast Reply</span><span class="cta-check">✅ 100% Auth</span></div>
+</div></div></div>
+</div></div></section>
 
-    </div>
-</section>
+<!-- FOOTER -->
+<footer class="footer"><div class="footer-grid">
+<div><div class="logo-wrap"><div class="logo-box gold-g"><span style="color:#000;font-weight:700;font-size:18px" class="font-d">SH</span></div><div><div class="font-d text-gg" style="font-size:20px;font-weight:700;line-height:1.1">SH TREND</div><div style="font-size:9px;letter-spacing:.25em;color:var(--gold-dark);text-transform:uppercase">Luxury Fashion</div></div></div><p class="footer-desc">Your premier destination for authentic global fashion brands in Lebanon.</p><div class="footer-socials"><a href="#" class="footer-social">IG</a><a href="#" class="footer-social">FB</a><a href="#" class="footer-social">TK</a></div></div>
+<div><div class="footer-heading">Shop</div><div class="footer-links"><a href="#collections" class="footer-link">Men's Collection</a><a href="#collections" class="footer-link">Women's Collection</a><a href="#collections" class="footer-link">Streetwear</a><a href="#arrivals" class="footer-link">Accessories</a><a href="#arrivals" class="footer-link">New Arrivals</a></div></div>
+<div><div class="footer-heading">Info</div><div class="footer-links"><a href="#" class="footer-link">About Us</a><a href="#" class="footer-link">Shipping Policy</a><a href="#" class="footer-link">Returns</a><a href="#" class="footer-link">Size Guide</a><a href="#" class="footer-link">FAQ</a></div></div>
+<div><div class="footer-heading">Stay Updated</div><p style="font-size:14px;color:rgba(255,255,255,.35);margin-bottom:16px">Get exclusive offers delivered to your inbox.</p><div class="footer-email"><input type="email" placeholder="Your email"><button class="gold-g">→</button></div><p style="margin-top:24px;font-size:12px;color:rgba(255,255,255,.25)">Or reach us directly:</p><a href="https://wa.me/96181390874" target="_blank" style="display:inline-flex;align-items:center;gap:8px;color:#4ade80;font-size:14px;margin-top:8px">📱 +961 81 390 874</a></div>
+</div><div class="footer-bottom"><p>© 2025 SH Trend. All rights reserved.</p><p>Made with <span style="color:var(--gold)">♥</span> in Lebanon</p></div></footer>
 
-<!-- Offers Section -->
-<section id="offers" style="padding:80px 0; background: linear-gradient(180deg, rgba(212,175,55,0.03), transparent, rgba(212,175,55,0.03));">
-    <div style="max-width:1400px; margin:0 auto; padding:0 20px;">
-        <div class="fade-in">
-            <p class="section-sub"><i class="fas fa-fire"></i> Limited Time</p>
-            <h2 class="section-title">Special Offers</h2>
-            <div class="section-line"></div>
-            <p style="text-align:center; color:#777; max-width:600px; margin:15px auto 50px; font-size:0.9rem;">Don't miss our exclusive deals on premium fragrances. Grab them before they're gone!</p>
-        </div>
-
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:30px; margin-bottom:50px;">
-            <div class="offer-card fade-in">
-                <div style="position:relative; z-index:1;">
-                    <div class="offer-discount">30%</div>
-                    <p style="font-size:1.2rem; font-weight:600; color:#fff; margin:5px 0;">OFF on Versace Collection</p>
-                    <p style="color:#888; font-size:0.85rem; margin-bottom:20px;">Get 30% discount on all Versace fragrances. Limited stock available!</p>
-                    <a href="#versace-section" class="btn-gold" style="font-size:0.75rem; padding:10px 25px;">Shop Now <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            <div class="offer-card fade-in">
-                <div style="position:relative; z-index:1;">
-                    <div class="offer-discount">25%</div>
-                    <p style="font-size:1.2rem; font-weight:600; color:#fff; margin:5px 0;">OFF on Dior Exclusives</p>
-                    <p style="color:#888; font-size:0.85rem; margin-bottom:20px;">Exclusive 25% discount on selected Dior perfumes. While supplies last!</p>
-                    <a href="#dior-section" class="btn-gold" style="font-size:0.75rem; padding:10px 25px;">Shop Now <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            <div class="offer-card fade-in">
-                <div style="position:relative; z-index:1;">
-                    <div class="offer-discount">Buy 2<br><span style="font-size:1.5rem;">Get 1 Free</span></div>
-                    <p style="font-size:1.2rem; font-weight:600; color:#fff; margin:5px 0;">Mix & Match Deal</p>
-                    <p style="color:#888; font-size:0.85rem; margin-bottom:20px;">Buy any 2 perfumes and get the 3rd one absolutely free!</p>
-                    <a href="#collections" class="btn-gold" style="font-size:0.75rem; padding:10px 25px;">Shop Now <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Offer Products -->
-        <h3 style="font-family:'Playfair Display',serif; color:var(--gold); text-align:center; font-size:1.8rem; margin-bottom:30px;" class="fade-in">🔥 Hot Deals This Week</h3>
-        <div id="offerProducts" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:25px;"></div>
-    </div>
-</section>
-
-<!-- Testimonials -->
-<section style="padding:80px 0;">
-    <div style="max-width:1400px; margin:0 auto; padding:0 20px;">
-        <div class="fade-in">
-            <p class="section-sub"><i class="fas fa-star"></i> What Clients Say</p>
-            <h2 class="section-title">Testimonials</h2>
-            <div class="section-line"></div>
-        </div>
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:25px; margin-top:50px;">
-            <div class="testimonial-card fade-in">
-                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                <p style="color:#ccc; font-size:0.9rem; line-height:1.8; margin:15px 0; font-style:italic;">"Best perfume shop in Lebanon! The collection is amazing and the prices are very competitive. I always find authentic fragrances here."</p>
-                <div style="display:flex; align-items:center; gap:12px;">
-                    <div style="width:45px;height:45px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-dark));display:flex;align-items:center;justify-content:center;font-weight:700;color:#000;">A</div>
-                    <div><p style="font-weight:600; font-size:0.9rem;">Ahmad K.</p><p style="color:#888; font-size:0.75rem;">Loyal Customer</p></div>
-                </div>
-            </div>
-            <div class="testimonial-card fade-in">
-                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                <p style="color:#ccc; font-size:0.9rem; line-height:1.8; margin:15px 0; font-style:italic;">"I've been shopping at Hamdan Perfume for 3 years now. Their customer service is outstanding and they always have the latest fragrances."</p>
-                <div style="display:flex; align-items:center; gap:12px;">
-                    <div style="width:45px;height:45px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-dark));display:flex;align-items:center;justify-content:center;font-weight:700;color:#000;">S</div>
-                    <div><p style="font-weight:600; font-size:0.9rem;">Sarah M.</p><p style="color:#888; font-size:0.75rem;">VIP Member</p></div>
-                </div>
-            </div>
-            <div class="testimonial-card fade-in">
-                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                <p style="color:#ccc; font-size:0.9rem; line-height:1.8; margin:15px 0; font-style:italic;">"The variety is incredible! From Versace to Tom Ford, they have everything. Genuine products at the best prices in all of Lebanon."</p>
-                <div style="display:flex; align-items:center; gap:12px;">
-                    <div style="width:45px;height:45px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-dark));display:flex;align-items:center;justify-content:center;font-weight:700;color:#000;">R</div>
-                    <div><p style="font-weight:600; font-size:0.9rem;">Rami H.</p><p style="color:#888; font-size:0.75rem;">Regular Customer</p></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- About Section -->
-<section id="about" style="padding:80px 0; background: linear-gradient(180deg, rgba(212,175,55,0.03), transparent);">
-    <div style="max-width:1400px; margin:0 auto; padding:0 20px;">
-        <div style="display:flex; flex-wrap:wrap; align-items:center; gap:60px;">
-            <div style="flex:1; min-width:300px;">
-                <div class="fade-in-left">
-                    <p class="section-sub" style="text-align:left;"><i class="fas fa-info-circle"></i> About Us</p>
-                    <h2 class="section-title" style="text-align:left;">Why Hamdan Perfume?</h2>
-                    <div class="section-line" style="margin:15px 0;"></div>
-                </div>
-                <div class="fade-in-left" style="margin-top:20px;">
-                    <p style="color:#aaa; line-height:2; font-size:0.95rem;">
-                        <strong style="color:var(--gold);">Hamdan Perfume</strong> is proudly recognized as the <strong style="color:var(--gold-light);">Best Perfume Store in Lebanon for 2026</strong>. Located in the heart of Khalde, on the Autostrad main road, we bring you an unparalleled selection of authentic luxury fragrances from the world's most prestigious brands.
-                    </p>
-                    <p style="color:#aaa; line-height:2; font-size:0.95rem; margin-top:15px;">
-                        With over 500+ products from 50+ international brands, our expert perfume consultants are dedicated to helping you find the perfect scent that matches your personality and style.
-                    </p>
-                </div>
-                <div class="fade-in-left" style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:30px;">
-                    <div style="display:flex; align-items:center; gap:12px;">
-                        <div style="width:45px;height:45px;border-radius:12px;background:rgba(212,175,55,0.1);display:flex;align-items:center;justify-content:center;color:var(--gold);"><i class="fas fa-check-circle"></i></div>
-                        <span style="font-size:0.85rem; color:#ccc;">100% Authentic</span>
-                    </div>
-                    <div style="display:flex; align-items:center; gap:12px;">
-                        <div style="width:45px;height:45px;border-radius:12px;background:rgba(212,175,55,0.1);display:flex;align-items:center;justify-content:center;color:var(--gold);"><i class="fas fa-shipping-fast"></i></div>
-                        <span style="font-size:0.85rem; color:#ccc;">Fast Delivery</span>
-                    </div>
-                    <div style="display:flex; align-items:center; gap:12px;">
-                        <div style="width:45px;height:45px;border-radius:12px;background:rgba(212,175,55,0.1);display:flex;align-items:center;justify-content:center;color:var(--gold);"><i class="fas fa-award"></i></div>
-                        <span style="font-size:0.85rem; color:#ccc;">Best Prices</span>
-                    </div>
-                    <div style="display:flex; align-items:center; gap:12px;">
-                        <div style="width:45px;height:45px;border-radius:12px;background:rgba(212,175,55,0.1);display:flex;align-items:center;justify-content:center;color:var(--gold);"><i class="fas fa-headset"></i></div>
-                        <span style="font-size:0.85rem; color:#ccc;">Expert Advice</span>
-                    </div>
-                </div>
-            </div>
-            <div style="flex:1; min-width:300px;" class="fade-in-right">
-                <div style="position:relative;">
-                    <img src="https://images.pexels.com/photos/13068356/pexels-photo-13068356.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200" alt="Store Interior" style="width:100%; border-radius:20px; border:2px solid rgba(212,175,55,0.2);">
-                    <div style="position:absolute; bottom:-20px; right:-20px; background:linear-gradient(135deg, var(--gold), var(--gold-dark)); padding:20px 30px; border-radius:15px; color:#000;">
-                        <div style="font-family:'Playfair Display',serif; font-size:2rem; font-weight:800;">2026</div>
-                        <div style="font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:2px;">#1 in Lebanon</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Location Section -->
-<section id="location" style="padding:80px 0;">
-    <div style="max-width:1400px; margin:0 auto; padding:0 20px;">
-        <div class="fade-in">
-            <p class="section-sub"><i class="fas fa-map-marker-alt"></i> Find Us</p>
-            <h2 class="section-title">Our Location</h2>
-            <div class="section-line"></div>
-            <p style="text-align:center; color:#777; max-width:600px; margin:15px auto 50px; font-size:0.9rem;">Visit us at our store in Khalde, Autostrad Main Road, Lebanon</p>
-        </div>
-        <div style="display:flex; flex-wrap:wrap; gap:40px; align-items:stretch;">
-            <div style="flex:1; min-width:300px;" class="fade-in-left">
-                <div class="map-container" style="height:100%; min-height:400px;">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13244.6!2d35.45!3d33.77!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151f3d0e1d0ee66d%3A0x9f6e0e6c7e9d7e3e!2sKhalde%2C%20Lebanon!5e0!3m2!1sen!2slb!4v1" width="100%" height="100%" style="border:0; min-height:400px;" allowfullscreen="" loading="lazy"></iframe>
-                </div>
-            </div>
-            <div style="flex:0.6; min-width:280px;" class="fade-in-right">
-                <div style="background:linear-gradient(145deg, #141414, #1c1c1c); border:1px solid rgba(212,175,55,0.15); border-radius:20px; padding:35px; height:100%;">
-                    <h3 style="font-family:'Playfair Display',serif; color:var(--gold); font-size:1.5rem; margin-bottom:25px;">Store Information</h3>
-                    <div style="display:flex; flex-direction:column; gap:25px;">
-                        <div style="display:flex; gap:15px;">
-                            <div style="width:50px;height:50px;border-radius:12px;background:rgba(212,175,55,0.1);display:flex;align-items:center;justify-content:center;color:var(--gold);flex-shrink:0;"><i class="fas fa-map-marker-alt"></i></div>
-                            <div>
-                                <p style="font-weight:600; color:#fff; font-size:0.9rem;">Address</p>
-                                <p style="color:#888; font-size:0.85rem;">Khalde, Autostrad Main Road, Lebanon</p>
-                            </div>
-                        </div>
-                        <div style="display:flex; gap:15px;">
-                            <div style="width:50px;height:50px;border-radius:12px;background:rgba(212,175,55,0.1);display:flex;align-items:center;justify-content:center;color:var(--gold);flex-shrink:0;"><i class="fas fa-phone"></i></div>
-                            <div>
-                                <p style="font-weight:600; color:#fff; font-size:0.9rem;">Phone</p>
-                                <p style="color:#888; font-size:0.85rem;">+961 70 580 593</p>
-                            </div>
-                        </div>
-                        <div style="display:flex; gap:15px;">
-                            <div style="width:50px;height:50px;border-radius:12px;background:rgba(212,175,55,0.1);display:flex;align-items:center;justify-content:center;color:var(--gold);flex-shrink:0;"><i class="fas fa-clock"></i></div>
-                            <div>
-                                <p style="font-weight:600; color:#fff; font-size:0.9rem;">Working Hours</p>
-                                <p style="color:#888; font-size:0.85rem;">Mon - Sat: 10:00 AM - 9:00 PM</p>
-                                <p style="color:#888; font-size:0.85rem;">Sunday: 12:00 PM - 7:00 PM</p>
-                            </div>
-                        </div>
-                        <div style="display:flex; gap:15px;">
-                            <div style="width:50px;height:50px;border-radius:12px;background:rgba(212,175,55,0.1);display:flex;align-items:center;justify-content:center;color:var(--gold);flex-shrink:0;"><i class="fab fa-whatsapp"></i></div>
-                            <div>
-                                <p style="font-weight:600; color:#fff; font-size:0.9rem;">WhatsApp</p>
-                                <a href="https://wa.me/96170580593?text=Hello%20Hamdan%20Perfume!%20I'm%20interested%20in%20your%20products." style="color:var(--gold); font-size:0.85rem; text-decoration:none;">Chat with us now →</a>
-                            </div>
-                        </div>
-                    </div>
-                    <a href="https://wa.me/96170580593?text=Hello%20Hamdan%20Perfume!" class="btn-whatsapp" style="margin-top:30px;">
-                        <i class="fab fa-whatsapp"></i> Message Us on WhatsApp
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Contact Section -->
-<section id="contact" style="padding:80px 0; background: linear-gradient(180deg, rgba(212,175,55,0.03), transparent);">
-    <div style="max-width:700px; margin:0 auto; padding:0 20px; text-align:center;">
-        <div class="fade-in">
-            <p class="section-sub"><i class="fas fa-envelope"></i> Get in Touch</p>
-            <h2 class="section-title">Contact Us</h2>
-            <div class="section-line"></div>
-            <p style="color:#777; margin:15px auto 40px; font-size:0.95rem;">Have a question? Need help choosing the perfect fragrance? Reach out to us and we'll be happy to assist you!</p>
-        </div>
-        <div class="fade-in" style="display:flex; flex-wrap:wrap; justify-content:center; gap:20px; margin-bottom:40px;">
-            <a href="https://wa.me/96170580593?text=Hello%20Hamdan%20Perfume!%20I'd%20like%20to%20know%20more%20about%20your%20products." class="btn-gold" style="flex:1; min-width:200px; justify-content:center;">
-                <i class="fab fa-whatsapp"></i> WhatsApp Us
-            </a>
-            <a href="tel:+96170580593" class="btn-outline" style="flex:1; min-width:200px; justify-content:center;">
-                <i class="fas fa-phone"></i> Call Us
-            </a>
-        </div>
-        <div class="fade-in" style="display:flex; justify-content:center; gap:20px;">
-            <a href="#" style="width:50px;height:50px;border-radius:50%;background:rgba(212,175,55,0.1);display:flex;align-items:center;justify-content:center;color:var(--gold);text-decoration:none;transition:all 0.3s;border:1px solid rgba(212,175,55,0.2);" onmouseover="this.style.background='var(--gold)';this.style.color='#000'" onmouseout="this.style.background='rgba(212,175,55,0.1)';this.style.color='var(--gold)'"><i class="fab fa-instagram"></i></a>
-            <a href="#" style="width:50px;height:50px;border-radius:50%;background:rgba(212,175,55,0.1);display:flex;align-items:center;justify-content:center;color:var(--gold);text-decoration:none;transition:all 0.3s;border:1px solid rgba(212,175,55,0.2);" onmouseover="this.style.background='var(--gold)';this.style.color='#000'" onmouseout="this.style.background='rgba(212,175,55,0.1)';this.style.color='var(--gold)'"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" style="width:50px;height:50px;border-radius:50%;background:rgba(212,175,55,0.1);display:flex;align-items:center;justify-content:center;color:var(--gold);text-decoration:none;transition:all 0.3s;border:1px solid rgba(212,175,55,0.2);" onmouseover="this.style.background='var(--gold)';this.style.color='#000'" onmouseout="this.style.background='rgba(212,175,55,0.1)';this.style.color='var(--gold)'"><i class="fab fa-tiktok"></i></a>
-            <a href="https://wa.me/96170580593" style="width:50px;height:50px;border-radius:50%;background:rgba(212,175,55,0.1);display:flex;align-items:center;justify-content:center;color:var(--gold);text-decoration:none;transition:all 0.3s;border:1px solid rgba(212,175,55,0.2);" onmouseover="this.style.background='var(--gold)';this.style.color='#000'" onmouseout="this.style.background='rgba(212,175,55,0.1)';this.style.color='var(--gold)'"><i class="fab fa-whatsapp"></i></a>
-        </div>
-    </div>
-</section>
-
-<!-- Footer -->
-<footer class="footer" style="padding:60px 0 30px;">
-    <div style="max-width:1400px; margin:0 auto; padding:0 20px;">
-        <div style="display:flex; flex-wrap:wrap; gap:40px; margin-bottom:40px;">
-            <div style="flex:1.5; min-width:250px;">
-                <div style="display:flex; align-items:center; gap:12px; margin-bottom:15px;">
-                    <img src="https://i.imgur.com/IwUUSvP.jpeg" alt="Hamdan Perfume" style="width:50px; height:50px; border-radius:50%; object-fit:cover; border:2px solid var(--gold);">
-                    <div>
-                        <div style="font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:700; color:var(--gold);">HAMDAN</div>
-                        <div style="font-size:0.6rem; letter-spacing:3px; color:#888;">PERFUME HOUSE</div>
-                    </div>
-                </div>
-                <p style="color:#777; font-size:0.85rem; line-height:1.8; max-width:350px;">Lebanon's #1 Perfume Store for 2026. Discover authentic luxury fragrances from the world's finest brands.</p>
-            </div>
-            <div style="flex:1; min-width:150px;">
-                <h4 style="color:var(--gold); font-size:0.85rem; letter-spacing:2px; text-transform:uppercase; margin-bottom:20px;">Quick Links</h4>
-                <div style="display:flex; flex-direction:column; gap:10px;">
-                    <a href="#home" style="color:#777; text-decoration:none; font-size:0.85rem; transition:color 0.3s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='#777'">Home</a>
-                    <a href="#collections" style="color:#777; text-decoration:none; font-size:0.85rem; transition:color 0.3s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='#777'">Collections</a>
-                    <a href="#offers" style="color:#777; text-decoration:none; font-size:0.85rem; transition:color 0.3s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='#777'">Offers</a>
-                    <a href="#about" style="color:#777; text-decoration:none; font-size:0.85rem; transition:color 0.3s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='#777'">About Us</a>
-                </div>
-            </div>
-            <div style="flex:1; min-width:150px;">
-                <h4 style="color:var(--gold); font-size:0.85rem; letter-spacing:2px; text-transform:uppercase; margin-bottom:20px;">Top Brands</h4>
-                <div style="display:flex; flex-direction:column; gap:10px;">
-                    <span style="color:#777; font-size:0.85rem;">Versace</span>
-                    <span style="color:#777; font-size:0.85rem;">Dior</span>
-                    <span style="color:#777; font-size:0.85rem;">Chanel</span>
-                    <span style="color:#777; font-size:0.85rem;">Tom Ford</span>
-                    <span style="color:#777; font-size:0.85rem;">Creed</span>
-                </div>
-            </div>
-            <div style="flex:1; min-width:200px;">
-                <h4 style="color:var(--gold); font-size:0.85rem; letter-spacing:2px; text-transform:uppercase; margin-bottom:20px;">Contact</h4>
-                <div style="display:flex; flex-direction:column; gap:10px;">
-                    <span style="color:#777; font-size:0.85rem;"><i class="fas fa-map-marker-alt" style="color:var(--gold); margin-right:8px;"></i> Khalde, Autostrad Main Road</span>
-                    <span style="color:#777; font-size:0.85rem;"><i class="fas fa-phone" style="color:var(--gold); margin-right:8px;"></i> +961 70 580 593</span>
-                    <span style="color:#777; font-size:0.85rem;"><i class="fab fa-whatsapp" style="color:var(--gold); margin-right:8px;"></i> WhatsApp Available</span>
-                </div>
-            </div>
-        </div>
-        <div style="border-top:1px solid rgba(212,175,55,0.1); padding-top:25px; display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:15px;">
-            <p style="color:#555; font-size:0.8rem;">© 2026 Hamdan Perfume. All Rights Reserved. | Best Perfume Store in Lebanon 2026</p>
-            <p style="color:#555; font-size:0.8rem;">Crafted with <span style="color:var(--gold);">♥</span> for Luxury</p>
-        </div>
-    </div>
-</footer>
-
-<!-- WhatsApp Floating Button -->
-<a href="https://wa.me/96170580593?text=Hello%20Hamdan%20Perfume!%20I'm%20interested%20in%20your%20products." target="_blank" style="position:fixed; bottom:30px; left:30px; width:60px; height:60px; background:#25D366; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.8rem; z-index:9998; box-shadow:0 5px 25px rgba(37,211,102,0.4); animation: bounce 2s infinite; text-decoration:none;">
-    <i class="fab fa-whatsapp"></i>
-</a>
-<style>
-    @keyframes bounce {
-        0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-        40% { transform: translateY(-10px); }
-        60% { transform: translateY(-5px); }
-    }
-</style>
+<!-- WHATSAPP FLOATING -->
+<div class="wa-float" id="waFloat" style="display:none">
+<div class="wa-tooltip" id="waTooltip">👋 Need help? Chat with us on WhatsApp!</div>
+<a href="https://wa.me/96181390874?text=Hi%20SH%20Trend!%20I'm%20interested%20in%20your%20products!" target="_blank" class="wa-btn"><div class="wa-ripple"></div><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg><div class="wa-notif">1</div></a>
+</div>
 
 <script>
-// ========== PRODUCT DATA ==========
-const perfumeImages = [
-    "https://i.imgur.com/VfSfmVZ.jpeg",
-    "https://i.imgur.com/eIQMb9i.jpeg",
-    "https://images.pexels.com/photos/21308575/pexels-photo-21308575.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=400",
-    "https://images.pexels.com/photos/21008941/pexels-photo-21008941.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=400",
-    "https://images.pexels.com/photos/12402366/pexels-photo-12402366.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=400",
-    "https://images.pexels.com/photos/37468240/pexels-photo-37468240.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=400",
-    "https://images.pexels.com/photos/13767420/pexels-photo-13767420.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=400",
-    "https://images.pexels.com/photos/11711808/pexels-photo-11711808.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=400",
-    "https://images.pexels.com/photos/965990/pexels-photo-965990.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=400",
-    "https://images.pexels.com/photos/4110341/pexels-photo-4110341.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=400",
-    "https://images.pexels.com/photos/15096784/pexels-photo-15096784.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=400",
-    "https://images.pexels.com/photos/7850600/pexels-photo-7850600.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=400",
-    "https://images.pexels.com/photos/11122042/pexels-photo-11122042.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=400",
-    "https://images.pexels.com/photos/29805437/pexels-photo-29805437.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=400",
-    "https://images.pexels.com/photos/7814730/pexels-photo-7814730.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=400",
-    "https://images.pexels.com/photos/15926320/pexels-photo-15926320.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=400",
-    "https://images.pexels.com/photos/1666405/pexels-photo-1666405.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=400",
-    "https://images.pexels.com/photos/20591858/pexels-photo-20591858.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=400",
-    "https://images.pexels.com/photos/264819/pexels-photo-264819.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=400",
-    "https://images.pexels.com/photos/15190739/pexels-photo-15190739.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=400",
-    "https://images.pexels.com/photos/32630378/pexels-photo-32630378.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=400",
-    "https://images.pexels.com/photos/21008923/pexels-photo-21008923.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=400",
-    "https://images.pexels.com/photos/32630380/pexels-photo-32630380.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=400",
-    "https://images.pexels.com/photos/26859235/pexels-photo-26859235.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=400",
-    "https://images.pexels.com/photos/15097440/pexels-photo-15097440.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=400",
+var WA='M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z';
+var products=[
+{name:'Classic Tailored Suit',brand:'Premium Collection',price:'$289',oldPrice:'$380',image:'https://images.pexels.com/photos/31840923/pexels-photo-31840923.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800',rating:4.9,reviews:124,badge:'HOT'},
+{name:'Elegant Evening Dress',brand:'Haute Couture',price:'$195',oldPrice:'$260',image:'https://images.pexels.com/photos/32285111/pexels-photo-32285111.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800',rating:4.8,reviews:89,badge:'NEW'},
+{name:'Urban Street Hoodie',brand:'Street Edition',price:'$125',oldPrice:'$175',image:'https://images.pexels.com/photos/7955530/pexels-photo-7955530.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800',rating:4.7,reviews:203,badge:'SALE'},
+{name:'Gold Luxury Watch',brand:'Accessories',price:'$450',oldPrice:'$599',image:'https://images.pexels.com/photos/19810831/pexels-photo-19810831.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800',rating:5.0,reviews:56,badge:'EXCLUSIVE'},
+{name:'Designer Leather Look',brand:'Premium Line',price:'$210',oldPrice:'$310',image:'https://images.pexels.com/photos/3160389/pexels-photo-3160389.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200',rating:4.6,reviews:167,badge:'TRENDING'},
+{name:'Gold Accessory Set',brand:'Luxury Accessories',price:'$340',oldPrice:'$450',image:'https://images.pexels.com/photos/9267843/pexels-photo-9267843.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800',rating:4.9,reviews:78,badge:'LIMITED'}
 ];
-
-const brands = [
-    {
-        id: 'versace',
-        name: 'Versace',
-        icon: '🏛️',
-        products: [
-            { name: "Eros", desc: "A bold, fresh oriental fragrance for men", price: 85, volume: "100ml", badge: "Bestseller" },
-            { name: "Pour Homme", desc: "Mediterranean freshness with amber notes", price: 75, volume: "100ml", badge: "" },
-            { name: "Dylan Blue", desc: "Masculine blend of citrus and woods", price: 90, volume: "100ml", badge: "New" },
-            { name: "Crystal Noir", desc: "Mysterious blend of gardenia and amber", price: 95, volume: "90ml", badge: "" },
-            { name: "Bright Crystal", desc: "Refreshing floral with peony and magnolia", price: 80, volume: "90ml", badge: "Popular" }
-        ]
-    },
-    {
-        id: 'dior',
-        name: 'Dior',
-        icon: '✨',
-        products: [
-            { name: "Sauvage EDP", desc: "Wild and noble, warm and magnetic", price: 120, volume: "100ml", badge: "Bestseller" },
-            { name: "J'adore", desc: "Iconic feminine floral bouquet", price: 130, volume: "100ml", badge: "" },
-            { name: "Miss Dior", desc: "Fresh and sparkling chypre fragrance", price: 115, volume: "100ml", badge: "New" },
-            { name: "Homme Intense", desc: "Intense iris and amber composition", price: 110, volume: "100ml", badge: "" },
-            { name: "Joy Intense", desc: "Rich blend of flowers and sandalwood", price: 125, volume: "90ml", badge: "Popular" }
-        ]
-    },
-    {
-        id: 'chanel',
-        name: 'Chanel',
-        icon: '👑',
-        products: [
-            { name: "Bleu de Chanel", desc: "Woody aromatic fragrance for men", price: 135, volume: "100ml", badge: "Bestseller" },
-            { name: "No. 5", desc: "The legendary feminine fragrance", price: 150, volume: "100ml", badge: "Iconic" },
-            { name: "Coco Mademoiselle", desc: "Oriental fresh fragrance for women", price: 140, volume: "100ml", badge: "" },
-            { name: "Allure Homme Sport", desc: "Fresh and dynamic for active men", price: 120, volume: "100ml", badge: "" },
-            { name: "Chance Eau Tendre", desc: "Delicate and sparkling floral scent", price: 125, volume: "100ml", badge: "Popular" }
-        ]
-    },
-    {
-        id: 'tomford',
-        name: 'Tom Ford',
-        icon: '🖤',
-        products: [
-            { name: "Tobacco Vanille", desc: "Rich and spicy tobacco blend", price: 250, volume: "100ml", badge: "Premium" },
-            { name: "Oud Wood", desc: "Exotic oud with rare rosewood", price: 280, volume: "100ml", badge: "Bestseller" },
-            { name: "Black Orchid", desc: "Luxurious dark floral statement", price: 220, volume: "100ml", badge: "" },
-            { name: "Lost Cherry", desc: "Decadent cherry with Turkish rose", price: 300, volume: "50ml", badge: "Exclusive" },
-            { name: "Neroli Portofino", desc: "Italian Riviera citrus freshness", price: 240, volume: "100ml", badge: "" }
-        ]
-    },
-    {
-        id: 'creed',
-        name: 'Creed',
-        icon: '🦁',
-        products: [
-            { name: "Aventus", desc: "The king of niche fragrances", price: 350, volume: "100ml", badge: "Legendary" },
-            { name: "Green Irish Tweed", desc: "Fresh and natural green fragrance", price: 300, volume: "100ml", badge: "" },
-            { name: "Silver Mountain Water", desc: "Cool crisp Alpine freshness", price: 320, volume: "100ml", badge: "Popular" },
-            { name: "Viking", desc: "Bold and fresh aromatic scent", price: 310, volume: "100ml", badge: "" },
-            { name: "Millésime Impérial", desc: "Sea salt and fruity musk blend", price: 330, volume: "100ml", badge: "Exclusive" }
-        ]
-    },
-    {
-        id: 'armani',
-        name: 'Armani',
-        icon: '🏆',
-        products: [
-            { name: "Acqua di Gio", desc: "Fresh aquatic Mediterranean scent", price: 95, volume: "100ml", badge: "Bestseller" },
-            { name: "Code Absolu", desc: "Intense and sensual oriental", price: 110, volume: "100ml", badge: "" },
-            { name: "Stronger With You", desc: "Warm spicy and sweet fragrance", price: 100, volume: "100ml", badge: "New" },
-            { name: "Si Passione", desc: "Bold and feminine rose nectar", price: 105, volume: "100ml", badge: "" },
-            { name: "Privé Oud Royal", desc: "Royal oud and intense saffron", price: 200, volume: "100ml", badge: "Premium" }
-        ]
-    },
-    {
-        id: 'gucci',
-        name: 'Gucci',
-        icon: '💎',
-        products: [
-            { name: "Guilty Pour Homme", desc: "Bold lavender and leather scent", price: 90, volume: "90ml", badge: "Bestseller" },
-            { name: "Bloom", desc: "Rich white floral composition", price: 95, volume: "100ml", badge: "" },
-            { name: "The Alchemist's Garden", desc: "Artisanal floral masterpiece", price: 250, volume: "100ml", badge: "Exclusive" },
-            { name: "Flora Gorgeous", desc: "Feminine and joyful gardenia", price: 100, volume: "100ml", badge: "New" },
-            { name: "Pour Homme II", desc: "Warm and seductive tea blend", price: 85, volume: "100ml", badge: "" }
-        ]
-    },
-    {
-        id: 'ysl',
-        name: 'YSL',
-        icon: '⭐',
-        products: [
-            { name: "La Nuit de L'Homme", desc: "Seductive cardamom and cedar blend", price: 95, volume: "100ml", badge: "Bestseller" },
-            { name: "Libre", desc: "Bold lavender and orange blossom", price: 110, volume: "90ml", badge: "Popular" },
-            { name: "Y EDP", desc: "Fresh and powerful ginger accord", price: 100, volume: "100ml", badge: "" },
-            { name: "Black Opium", desc: "Addictive coffee and vanilla", price: 115, volume: "90ml", badge: "Iconic" },
-            { name: "Mon Paris", desc: "Romantic chypre with berry notes", price: 105, volume: "90ml", badge: "" }
-        ]
-    },
-    {
-        id: 'bvlgari',
-        name: 'Bvlgari',
-        icon: '🔷',
-        products: [
-            { name: "Man in Black", desc: "Bold oriental with rum and leather", price: 85, volume: "100ml", badge: "Bestseller" },
-            { name: "Omnia Crystalline", desc: "Crystal clear lotus and bamboo", price: 80, volume: "65ml", badge: "" },
-            { name: "Aqva Pour Homme", desc: "Fresh aquatic Mediterranean", price: 75, volume: "100ml", badge: "" },
-            { name: "Rose Goldea", desc: "Rose and musk golden elixir", price: 95, volume: "90ml", badge: "Popular" },
-            { name: "Tygar", desc: "Vibrant Japanese yuzu citrus", price: 200, volume: "100ml", badge: "Premium" }
-        ]
-    },
-    {
-        id: 'prada',
-        name: 'Prada',
-        icon: '🔺',
-        products: [
-            { name: "Luna Rossa Carbon", desc: "Fresh fougère with metallic notes", price: 95, volume: "100ml", badge: "Bestseller" },
-            { name: "L'Homme", desc: "Clean iris and amber sophistication", price: 90, volume: "100ml", badge: "" },
-            { name: "Candy", desc: "Playful caramel and musk blend", price: 100, volume: "80ml", badge: "Popular" },
-            { name: "Infusion d'Iris", desc: "Refined iris and mandarin elegance", price: 110, volume: "100ml", badge: "" },
-            { name: "Luna Rossa Ocean", desc: "Invigorating sea and bergamot", price: 95, volume: "100ml", badge: "New" }
-        ]
-    }
-];
-
-// All products flat array
-let allProducts = [];
-let imgIndex = 0;
-brands.forEach(brand => {
-    brand.products.forEach(product => {
-        allProducts.push({
-            ...product,
-            brand: brand.name,
-            brandId: brand.id,
-            image: perfumeImages[imgIndex % perfumeImages.length]
-        });
-        imgIndex++;
-    });
-});
-
-// ========== RENDER PRODUCTS ==========
-function renderProducts(filter = 'all') {
-    const container = document.getElementById('productsContainer');
-    let html = '';
-
-    const filteredBrands = filter === 'all' ? brands : brands.filter(b => b.id === filter);
-
-    filteredBrands.forEach((brand, bi) => {
-        html += `
-        <div id="${brand.id}-section" class="brand-section fade-in" style="margin-bottom:70px;">
-            <div style="display:flex; align-items:center; gap:15px; margin-bottom:30px;">
-                <span style="font-size:2rem;">${brand.icon}</span>
-                <div>
-                    <h3 style="font-family:'Playfair Display',serif; font-size:1.8rem; color:var(--gold);">${brand.name}</h3>
-                    <p style="color:#666; font-size:0.8rem; letter-spacing:2px; text-transform:uppercase;">Collection</p>
-                </div>
-                <div style="flex:1; height:1px; background:linear-gradient(90deg, rgba(212,175,55,0.3), transparent);"></div>
-            </div>
-            <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:25px;">
-        `;
-
-        brand.products.forEach((product, pi) => {
-            const pImgIdx = (brands.indexOf(brand) * 5 + pi) % perfumeImages.length;
-            const img = perfumeImages[pImgIdx];
-            const stars = '★'.repeat(4 + Math.round(Math.random())) + (Math.random() > 0.5 ? '☆' : '★');
-            const whatsappMsg = encodeURIComponent(`Hi Hamdan Perfume! 🌟\n\nI'm interested in:\n🔹 Product: ${brand.name} - ${product.name}\n🔹 Price: $${product.price}\n🔹 Volume: ${product.volume}\n\nPlease provide more details. Thank you!`);
-
-            html += `
-            <div class="product-card scale-in" data-name="${product.name}" data-brand="${brand.name}" style="animation-delay:${pi * 0.1}s">
-                <div class="product-img-wrap">
-                    <img src="${img}" alt="${product.name}" loading="lazy">
-                    <div class="product-overlay"></div>
-                    ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
-                </div>
-                <div class="product-info">
-                    <div class="stars">${stars}</div>
-                    <p class="product-brand">${brand.name}</p>
-                    <h4 class="product-name">${product.name}</h4>
-                    <p class="product-desc">${product.desc}</p>
-                    <div class="product-price-row">
-                        <div>
-                            <span class="product-price">$${product.price}</span>
-                        </div>
-                        <span class="product-volume">${product.volume}</span>
-                    </div>
-                    <a href="https://wa.me/96170580593?text=${whatsappMsg}" target="_blank" class="btn-whatsapp">
-                        <i class="fab fa-whatsapp"></i> Order on WhatsApp
-                    </a>
-                </div>
-            </div>
-            `;
-        });
-
-        html += '</div></div>';
-    });
-
-    container.innerHTML = html;
-    observeElements();
-}
-
-// ========== SPECIAL PRODUCTS DATA & RENDER ==========
-const specialProducts = [
-    {
-        name: "Royal Oud Exclusive",
-        brand: "Hamdan Special",
-        desc: "An ultra-rare blend of aged Cambodian oud, Bulgarian rose, and 24K gold essence. The signature scent of royalty.",
-        price: 450,
-        volume: "100ml",
-        tag: "Ultra Rare",
-        image: "https://images.pexels.com/photos/18833913/pexels-photo-18833913.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=600&w=500"
-    },
-    {
-        name: "Noir de Nuit",
-        brand: "Hamdan Special",
-        desc: "A mysterious midnight fragrance with black amber, dark vanilla, and smoky incense. For those who own the night.",
-        price: 380,
-        volume: "75ml",
-        tag: "Limited Edition",
-        image: "https://images.pexels.com/photos/29255493/pexels-photo-29255493.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=600&w=500"
-    },
-    {
-        name: "Golden Elixir",
-        brand: "Hamdan Special",
-        desc: "Liquid gold in a bottle — precious saffron, white musk, and rare Indian sandalwood. A masterpiece of perfumery.",
-        price: 520,
-        volume: "100ml",
-        tag: "Masterpiece",
-        image: "https://images.pexels.com/photos/13599787/pexels-photo-13599787.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=600&w=500"
-    },
-    {
-        name: "Velvet Rose Supreme",
-        brand: "Hamdan Special",
-        desc: "1000 Damask roses distilled into pure elegance. Blended with precious ambergris and Tahitian vanilla.",
-        price: 400,
-        volume: "80ml",
-        tag: "Signature",
-        image: "https://images.pexels.com/photos/13800861/pexels-photo-13800861.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=600&w=500"
-    },
-    {
-        name: "Arabian Nights",
-        brand: "Hamdan Special",
-        desc: "A journey through ancient Arabian perfumery — frankincense, myrrh, aged oud, and desert rose under moonlight.",
-        price: 490,
-        volume: "100ml",
-        tag: "Exclusive",
-        image: "https://images.pexels.com/photos/8796360/pexels-photo-8796360.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=600&w=500"
-    },
-    {
-        name: "Diamond Musk Privé",
-        brand: "Hamdan Special",
-        desc: "The ultimate luxury — white diamond accord, Egyptian musk, and a whisper of French lavender. Only 100 bottles exist.",
-        price: 600,
-        volume: "50ml",
-        tag: "1 of 100",
-        image: "https://images.pexels.com/photos/18031848/pexels-photo-18031848.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=600&w=500"
-    }
-];
-
-function renderSpecialProducts() {
-    const container = document.getElementById('specialProductsGrid');
-    let html = '';
-    specialProducts.forEach((p, i) => {
-        const whatsappMsg = encodeURIComponent(`Hi Hamdan Perfume! 👑\n\nI'm interested in your SPECIAL Collection:\n\n🌟 Product: ${p.name}\n💰 Price: $${p.price}\n📦 Volume: ${p.volume}\n🏷️ Edition: ${p.tag}\n\nPlease provide more details and availability. Thank you!`);
-        html += `
-        <div class="special-card scale-in special-float" style="animation-delay:${i * 0.15}s">
-            <div class="special-img-wrap">
-                <img src="${p.image}" alt="${p.name}" loading="lazy">
-                <div class="special-img-overlay"></div>
-                <div class="special-crown">👑</div>
-                <span class="special-exclusive-tag">${p.tag}</span>
-            </div>
-            <div class="special-info">
-                <div style="display:flex; align-items:center; gap:6px; margin-bottom:4px;">
-                    <span style="font-size:0.7rem; color:var(--gold); letter-spacing:3px; text-transform:uppercase; font-weight:600;">${p.brand}</span>
-                    <span style="color:var(--gold);">•</span>
-                    <div style="color:var(--gold); font-size:0.7rem;">★★★★★</div>
-                </div>
-                <h4 class="special-name">${p.name}</h4>
-                <p style="font-size:0.82rem; color:#999; line-height:1.7; margin-bottom:15px;">${p.desc}</p>
-                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:18px;">
-                    <div class="special-price-tag">
-                        <i class="fas fa-gem" style="color:var(--gold); font-size:0.8rem;"></i>
-                        <span class="special-price-amount">$${p.price}</span>
-                    </div>
-                    <span style="font-size:0.75rem; color:#888; background:rgba(212,175,55,0.08); padding:4px 12px; border-radius:10px; border:1px solid rgba(212,175,55,0.15);">${p.volume}</span>
-                </div>
-                <a href="https://wa.me/96170580593?text=${whatsappMsg}" target="_blank" class="btn-whatsapp-special">
-                    <i class="fab fa-whatsapp" style="font-size:1.2rem;"></i> Order This Exclusive
-                </a>
-            </div>
-        </div>`;
-    });
-    container.innerHTML = html;
-}
-
-// Offer products
-function renderOfferProducts() {
-    const container = document.getElementById('offerProducts');
-    const offers = [
-        { ...allProducts[0], oldPrice: 120, newPrice: 59, discount: '30%' },
-        { ...allProducts[5], oldPrice: 150, newPrice: 75, discount: '50%' },
-        { ...allProducts[10], oldPrice: 110, newPrice: 66, discount: '40%' },
-        { ...allProducts[15], oldPrice: 130, newPrice: 78, discount: '40%' },
-        { ...allProducts[20], oldPrice: 100, newPrice: 55, discount: '45%' },
-        { ...allProducts[3], oldPrice: 140, newPrice: 84, discount: '40%' },
-    ];
-
-    let html = '';
-    offers.forEach((p, i) => {
-        const whatsappMsg = encodeURIComponent(`Hi Hamdan Perfume! 🔥\n\nI'm interested in this OFFER:\n🔹 Product: ${p.brand} - ${p.name}\n🔹 Offer Price: $${p.newPrice} (was $${p.oldPrice})\n🔹 Discount: ${p.discount} OFF\n\nPlease confirm availability. Thank you!`);
-        html += `
-        <div class="product-card scale-in" style="animation-delay:${i * 0.1}s">
-            <div class="product-img-wrap">
-                <img src="${p.image}" alt="${p.name}" loading="lazy">
-                <div class="product-overlay"></div>
-                <span class="product-badge" style="background:linear-gradient(135deg,#e74c3c,#c0392b);">${p.discount} OFF</span>
-            </div>
-            <div class="product-info">
-                <div class="stars">★★★★★</div>
-                <p class="product-brand">${p.brand}</p>
-                <h4 class="product-name">${p.name}</h4>
-                <p class="product-desc">${p.desc}</p>
-                <div class="product-price-row">
-                    <div>
-                        <span class="product-price">$${p.newPrice}</span>
-                        <span class="product-price-old">$${p.oldPrice}</span>
-                    </div>
-                    <span class="product-volume">${p.volume}</span>
-                </div>
-                <a href="https://wa.me/96170580593?text=${whatsappMsg}" target="_blank" class="btn-whatsapp">
-                    <i class="fab fa-whatsapp"></i> Grab This Deal
-                </a>
-            </div>
-        </div>`;
-    });
-    container.innerHTML = html;
-}
-
-// ========== CATEGORY FILTER ==========
-function filterCategory(cat, btn) {
-    document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
-    btn.classList.add('active');
-    renderProducts(cat);
-}
-
-// ========== SEARCH ==========
-function searchProducts(query) {
-    const results = document.getElementById('searchResults');
-    if (!query.trim()) { results.classList.remove('active'); return; }
-
-    const allSearchable = [...allProducts, ...specialProducts];
-    const filtered = allSearchable.filter(p =>
-        p.name.toLowerCase().includes(query.toLowerCase()) ||
-        p.brand.toLowerCase().includes(query.toLowerCase()) ||
-        p.desc.toLowerCase().includes(query.toLowerCase())
-    );
-
-    if (filtered.length === 0) {
-        results.innerHTML = '<div style="padding:20px; text-align:center; color:#888;">No products found</div>';
-    } else {
-        results.innerHTML = filtered.slice(0, 10).map(p => {
-            const whatsappMsg = encodeURIComponent(`Hi Hamdan Perfume!\n\nI'm interested in:\n🔹 Product: ${p.brand} - ${p.name}\n🔹 Price: $${p.price}\n🔹 Volume: ${p.volume}\n\nThank you!`);
-            return `
-            <a href="https://wa.me/96170580593?text=${whatsappMsg}" target="_blank" class="search-result-item">
-                <img src="${p.image}" alt="${p.name}">
-                <div>
-                    <p style="font-weight:600; font-size:0.9rem;">${p.name}</p>
-                    <p style="color:var(--gold); font-size:0.75rem;">${p.brand} • $${p.price}</p>
-                </div>
-            </a>`;
-        }).join('');
-    }
-    results.classList.add('active');
-}
-
-// ========== ANIMATIONS & OBSERVERS ==========
-function observeElements() {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry, i) => {
-            if (entry.isIntersecting) {
-                setTimeout(() => {
-                    entry.target.classList.add('visible');
-                }, i * 80);
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-    document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right, .scale-in').forEach(el => {
-        if (!el.classList.contains('visible')) {
-            observer.observe(el);
-        }
-    });
-}
-
-// ========== PARTICLES ==========
-function createParticles() {
-    const container = document.getElementById('particles');
-    for (let i = 0; i < 40; i++) {
-        const p = document.createElement('div');
-        p.className = 'particle';
-        p.style.left = Math.random() * 100 + '%';
-        p.style.animationDuration = (Math.random() * 6 + 4) + 's';
-        p.style.animationDelay = Math.random() * 8 + 's';
-        p.style.width = (Math.random() * 4 + 2) + 'px';
-        p.style.height = p.style.width;
-        container.appendChild(p);
-    }
-}
-
-// ========== COUNTER ANIMATION ==========
-function animateCounters() {
-    document.querySelectorAll('.counter-num').forEach(counter => {
-        const target = parseInt(counter.dataset.target);
-        const duration = 2000;
-        const step = target / (duration / 16);
-        let current = 0;
-        const timer = setInterval(() => {
-            current += step;
-            if (current >= target) {
-                counter.textContent = target.toLocaleString() + '+';
-                clearInterval(timer);
-            } else {
-                counter.textContent = Math.floor(current).toLocaleString() + '+';
-            }
-        }, 16);
-    });
-}
-
-// ========== NAVBAR SCROLL ==========
-window.addEventListener('scroll', () => {
-    const navbar = document.getElementById('navbar');
-    const backToTop = document.getElementById('backToTop');
-
-    if (window.scrollY > 80) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
-    }
-
-    if (window.scrollY > 500) {
-        backToTop.classList.add('show');
-    } else {
-        backToTop.classList.remove('show');
-    }
-});
-
-// ========== PRELOADER ==========
-window.addEventListener('load', () => {
-    setTimeout(() => {
-        document.getElementById('preloader').classList.add('hidden');
-        setTimeout(() => {
-            createParticles();
-            renderProducts();
-            renderSpecialProducts();
-            renderOfferProducts();
-            observeElements();
-            animateCounters();
-        }, 300);
-    }, 1800);
-});
-
-// ========== SMOOTH SCROLL ==========
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-    });
-});
-
-// ========== TILT EFFECT ON CARDS ==========
-document.addEventListener('mousemove', (e) => {
-    const cards = document.querySelectorAll('.product-card');
-    cards.forEach(card => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateX = (y - centerY) / 20;
-            const rotateY = (centerX - x) / 20;
-            card.style.transform = `translateY(-15px) scale(1.02) perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-        }
-    });
-});
-
-// ========== CURSOR GLOW ==========
-const cursorGlow = document.createElement('div');
-cursorGlow.style.cssText = 'position:fixed;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(212,175,55,0.06),transparent 70%);pointer-events:none;z-index:9997;transition:transform 0.1s;';
-document.body.appendChild(cursorGlow);
-document.addEventListener('mousemove', e => {
-    cursorGlow.style.left = (e.clientX - 150) + 'px';
-    cursorGlow.style.top = (e.clientY - 150) + 'px';
-});
-
-// Close search modal on Escape
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        document.getElementById('searchModal').style.display = 'none';
-    }
-});
+function stars(r){var s='';for(var i=1;i<=5;i++)s+='<svg class="prod-star" viewBox="0 0 20 20" fill="'+(i<=r?'var(--gold)':'rgba(255,255,255,.15)')+'"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>';return s}
+var pg=document.getElementById('prodGrid');
+if(pg)products.forEach(function(p,i){var pn=parseInt(p.price.slice(1)),op=parseInt(p.oldPrice.slice(1)),off=Math.round((1-pn/op)*100);
+pg.innerHTML+='<div class="prod-card reveal reveal-d'+(i+1)+'" data-reveal><div class="prod-img-wrap"><img src="'+p.image+'" alt="'+p.name+'" loading="lazy"><div class="prod-img-overlay"></div><div class="prod-badge gold-g" style="color:#000">'+p.badge+'</div><div class="prod-actions"><button class="prod-action-btn" title="Wishlist"><svg class="icon" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg></button><button class="prod-action-btn" title="View"><svg class="icon" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></button></div><div class="prod-wa-overlay"><a href="https://wa.me/96181390874?text=Hi%20SH%20Trend!%20I%20want%20'+encodeURIComponent(p.name)+'%20('+p.price+')" target="_blank" class="prod-wa-btn gold-g"><svg class="wa-svg" viewBox="0 0 24 24"><path d="'+WA+'"/></svg> Order on WhatsApp</a></div></div><div class="prod-info"><div class="prod-brand">'+p.brand+'</div><div class="prod-name">'+p.name+'</div><div class="prod-stars">'+stars(p.rating)+'<span class="prod-reviews">('+p.reviews+')</span></div><div class="prod-pricing"><span class="prod-price">'+p.price+'</span><span class="prod-old">'+p.oldPrice+'</span><span class="prod-off">'+off+'% OFF</span></div></div></div>'});
+var testimonials=[{name:'Sarah M.',loc:'Beirut',text:'Absolutely stunning collection! The quality is unmatched and WhatsApp service was incredibly fast. My new go-to store! 🔥',avatar:'👩'},{name:'Ahmad K.',loc:'Tripoli',text:'SH Trend completely changed my wardrobe. Authentic brands and competitive prices. Highly recommend!',avatar:'👨'},{name:'Nour H.',loc:'Jounieh',text:'Ordered 3 dresses for a wedding and they were all perfect! WhatsApp ordering made it so easy.',avatar:'👩‍🦱'},{name:'Karim B.',loc:'Sidon',text:'Best streetwear in Lebanon! Fast delivery and premium quality. The real deal for fashion lovers.',avatar:'🧔'}];
+var activeTest=0;
+function renderTests(){var tg=document.getElementById('testGrid'),td=document.getElementById('testDots');if(!tg||!td)return;tg.innerHTML='';td.innerHTML='';
+testimonials.forEach(function(t,i){tg.innerHTML+='<div class="test-card '+(i===activeTest?'active':'')+' reveal visible" onclick="setTest('+i+')"><div class="test-quote font-d">"</div><p class="test-text">'+t.text+'</p><div class="test-author"><div class="test-avatar gold-g">'+t.avatar+'</div><div><div class="test-name">'+t.name+'</div><div class="test-loc">'+t.loc+'</div></div></div><div class="test-stars">'+stars(5)+'</div></div>';
+td.innerHTML+='<button class="test-dot '+(i===activeTest?'active':'')+'" onclick="setTest('+i+')"></button>'});initReveal()}
+function setTest(i){activeTest=i;renderTests()}
+renderTests();setInterval(function(){activeTest=(activeTest+1)%testimonials.length;renderTests()},4000);
+window.addEventListener('scroll',function(){var n=document.getElementById('navbar');if(n)n.classList.toggle('scrolled',window.scrollY>50)});
+var mobOpen=false;
+function toggleMob(){mobOpen=!mobOpen;document.getElementById('mobMenu').classList.toggle('open',mobOpen);var b1=document.getElementById('mb1'),b2=document.getElementById('mb2'),b3=document.getElementById('mb3');if(mobOpen){b1.style.transform='rotate(45deg) translate(5px,5px)';b2.style.opacity='0';b3.style.transform='rotate(-45deg) translate(5px,-5px)'}else{b1.style.transform='';b2.style.opacity='';b3.style.transform=''}}
+function closeMob(){mobOpen=false;document.getElementById('mobMenu').classList.remove('open');document.getElementById('mb1').style.transform='';document.getElementById('mb2').style.opacity='';document.getElementById('mb3').style.transform=''}
+document.addEventListener('mousemove',function(e){var x=(e.clientX/window.innerWidth-.5)*20,y=(e.clientY/window.innerHeight-.5)*20;var bg=document.getElementById('heroBg');if(bg)bg.style.transform='translate('+x*.3+'px,'+y*.3+'px) scale(1.1)'});
+var ch=23,cm=59,cs=59;setInterval(function(){cs--;if(cs<0){cs=59;cm--}if(cm<0){cm=59;ch--}if(ch<0){ch=23;cm=59;cs=59}var h=document.getElementById('cdH'),m=document.getElementById('cdM'),s=document.getElementById('cdS');if(h)h.textContent=String(ch).padStart(2,'0');if(m)m.textContent=String(cm).padStart(2,'0');if(s)s.textContent=String(cs).padStart(2,'0')},1000);
+setTimeout(function(){var w=document.getElementById('waFloat');if(w){w.style.display='flex';setTimeout(function(){var t=document.getElementById('waTooltip');if(t)t.classList.add('show')},300);setTimeout(function(){var t=document.getElementById('waTooltip');if(t)t.classList.remove('show')},8000)}},2000);
+function initReveal(){var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}})},{threshold:0.08});document.querySelectorAll('.reveal:not(.visible)').forEach(function(el){obs.observe(el)})}
+initReveal();
 </script>
-
 </body>
 </html>
